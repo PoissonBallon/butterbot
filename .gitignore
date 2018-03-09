@@ -67,3 +67,4 @@ xsxsfastlane/screenshots
 fastlane/test_output
 
 *.xcodeproj
+*.secret
