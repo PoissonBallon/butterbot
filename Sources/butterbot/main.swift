@@ -1,23 +1,33 @@
 import SlackKit
+import MySQL
 import Foundation
 
 let bot = SlackKit()
-let slackBotToken: String = ProcessInfo.processInfo.environment["SLACK_BOT_TOKEN"] ?? ""
+let env: Environment
+let database: Database
 
-bot.addRTMBotWithAPIToken(slackBotToken)
-// Register for event notifications
-
-bot.notificationForEvent(.hello) { (event, message) in
-  if let channelID = event.channel?.id {
-    try? bot.rtm?.sendMessage("I am alive", channelID: channelID)
-  }
+do {
+  env = try Environment()
+} catch {
+  fatalError(error.localizedDescription)
 }
 
-bot.notificationForEvent(.message) { (event, _) in
-  print(event.message)
-  if let channelID = event.channel?.id {
-    try? bot.rtm?.sendMessage("I am alive", channelID: channelID)
-  }
-}
+database = Database(with: env)
+database.information()
+//bot.addRTMBotWithAPIToken(slackBotToken)
+//// Register for event notifications
+//
+//bot.notificationForEvent(.hello) { (event, message) in
+//  if let channelID = event.channel?.id {
+//    try? bot.rtm?.sendMessage("I am alive", channelID: channelID)
+//  }
+//}
+//
+//bot.notificationForEvent(.message) { (event, _) in
+//  print(event.message)
+//  if let channelID = event.channel?.id {
+//    try? bot.rtm?.sendMessage("I am alive", channelID: channelID)
+//  }
+//}
 
 RunLoop.main.run()

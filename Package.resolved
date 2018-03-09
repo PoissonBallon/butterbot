@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "Async",
-        "repositoryURL": "https://github.com/vapor/async.git",
+        "package": "CMySQL",
+        "repositoryURL": "https://github.com/vapor/cmysql.git",
         "state": {
           "branch": null,
-          "revision": "76ed7841b32dcc47168e8d9040ba03c024224d0c",
-          "version": "1.0.0-rc.1.1"
+          "revision": "d931ed6ce52e772cd364fc0da59312440d6eee43",
+          "version": "2.0.2"
         }
       },
       {
@@ -20,30 +20,12 @@
         }
       },
       {
-        "package": "Core",
-        "repositoryURL": "https://github.com/vapor/core.git",
-        "state": {
-          "branch": null,
-          "revision": "0dd54c6e369f575a13f2c9964609b6c7d2dab909",
-          "version": "3.0.0-rc.1.0.1"
-        }
-      },
-      {
-        "package": "Crypto",
-        "repositoryURL": "https://github.com/vapor/crypto.git",
-        "state": {
-          "branch": null,
-          "revision": "e5dbff5eac700fe925f95a4e6eee5424f609d0d6",
-          "version": "3.0.0-rc.1.1.1"
-        }
-      },
-      {
         "package": "MySQL",
-        "repositoryURL": "https://github.com/vapor/mysql.git",
+        "repositoryURL": "https://github.com/novi/mysql-swift.git",
         "state": {
           "branch": null,
-          "revision": "ec23247869c0805506982aaa740e362286986b40",
-          "version": "3.0.0-rc.1.1"
+          "revision": "dd32dcd0f8def62f50cb8f74846fcc788b846a83",
+          "version": "0.9.0-beta.2"
         }
       },
       {
@@ -101,15 +83,6 @@
         }
       },
       {
-        "package": "Sockets",
-        "repositoryURL": "https://github.com/vapor/sockets.git",
-        "state": {
-          "branch": null,
-          "revision": "738f3ebf3ebb8ea886d5dd8588dd46a54f66af1c",
-          "version": "3.0.0-rc.1"
-        }
-      },
-      {
         "package": "Starscream",
         "repositoryURL": "https://github.com/daltoniam/Starscream",
         "state": {
@@ -125,15 +98,6 @@
           "branch": null,
           "revision": "c6d8ea04c7b5f00e7f688cff52100ecc8139f18a",
           "version": "1.4.0"
-        }
-      },
-      {
-        "package": "TLS",
-        "repositoryURL": "https://github.com/vapor/tls.git",
-        "state": {
-          "branch": null,
-          "revision": "cfd8cc0f06841ee15469c5fc98131e47511f8e94",
-          "version": "3.0.0-rc.1.0.1"
         }
       },
       {

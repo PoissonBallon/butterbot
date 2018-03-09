@@ -7,7 +7,7 @@ let package = Package(
   name: "butterbot",
   dependencies: [
       .package(url: "https://github.com/NoRespect/SlackKit.git", .branch("master")),
-      .package(url: "https://github.com/vapor/mysql.git", from: "3.0.0-rc.1.1")
+      .package(url: "https://github.com/novi/mysql-swift.git", from: "0.9.0-beta.2")
   ],
   targets: [
       .target(name: "butterbot", dependencies: ["SlackKit","MySQL"]),
