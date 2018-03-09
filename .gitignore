@@ -63,5 +63,7 @@ Carthage/Build
 
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots
+xsxsfastlane/screenshots
 fastlane/test_output
+
+*.xcodeproj

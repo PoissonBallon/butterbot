@@ -1,0 +1,151 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Async",
+        "repositoryURL": "https://github.com/vapor/async.git",
+        "state": {
+          "branch": null,
+          "revision": "76ed7841b32dcc47168e8d9040ba03c024224d0c",
+          "version": "1.0.0-rc.1.1"
+        }
+      },
+      {
+        "package": "SSCommonCrypto",
+        "repositoryURL": "https://github.com/daltoniam/common-crypto-spm",
+        "state": {
+          "branch": null,
+          "revision": "2eb3aff0fb57f92f5722fac5d6d20bf64669ca66",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "Core",
+        "repositoryURL": "https://github.com/vapor/core.git",
+        "state": {
+          "branch": null,
+          "revision": "0dd54c6e369f575a13f2c9964609b6c7d2dab909",
+          "version": "3.0.0-rc.1.0.1"
+        }
+      },
+      {
+        "package": "Crypto",
+        "repositoryURL": "https://github.com/vapor/crypto.git",
+        "state": {
+          "branch": null,
+          "revision": "e5dbff5eac700fe925f95a4e6eee5424f609d0d6",
+          "version": "3.0.0-rc.1.1.1"
+        }
+      },
+      {
+        "package": "MySQL",
+        "repositoryURL": "https://github.com/vapor/mysql.git",
+        "state": {
+          "branch": null,
+          "revision": "ec23247869c0805506982aaa740e362286986b40",
+          "version": "3.0.0-rc.1.1"
+        }
+      },
+      {
+        "package": "SKClient",
+        "repositoryURL": "https://github.com/SlackKit/SKClient",
+        "state": {
+          "branch": null,
+          "revision": "008e10a402f17519750a5b94c4cf6b16310abf18",
+          "version": "4.1.0"
+        }
+      },
+      {
+        "package": "SKCore",
+        "repositoryURL": "https://github.com/SlackKit/SKCore",
+        "state": {
+          "branch": null,
+          "revision": "cb313cdebacf9c882460b3b25349f9bc55015c8c",
+          "version": "4.1.0"
+        }
+      },
+      {
+        "package": "SKRTMAPI",
+        "repositoryURL": "https://github.com/SlackKit/SKRTMAPI",
+        "state": {
+          "branch": null,
+          "revision": "aaa6d9146aa090215f6e05964bf1d5b3e1d73d90",
+          "version": "4.1.1"
+        }
+      },
+      {
+        "package": "SKServer",
+        "repositoryURL": "https://github.com/NoRespect/SKServer.git",
+        "state": {
+          "branch": "master",
+          "revision": "096c758e845813a47da1dab7e2702c3d9482cbbd",
+          "version": null
+        }
+      },
+      {
+        "package": "SKWebAPI",
+        "repositoryURL": "https://github.com/SlackKit/SKWebAPI",
+        "state": {
+          "branch": null,
+          "revision": "6344d399d7cfcd1051e2ad29fb6c7262499d8366",
+          "version": "4.1.1"
+        }
+      },
+      {
+        "package": "SlackKit",
+        "repositoryURL": "https://github.com/NoRespect/SlackKit.git",
+        "state": {
+          "branch": "master",
+          "revision": "5a541fde8d61d59512baa51f7d98856f6097c059",
+          "version": null
+        }
+      },
+      {
+        "package": "Sockets",
+        "repositoryURL": "https://github.com/vapor/sockets.git",
+        "state": {
+          "branch": null,
+          "revision": "738f3ebf3ebb8ea886d5dd8588dd46a54f66af1c",
+          "version": "3.0.0-rc.1"
+        }
+      },
+      {
+        "package": "Starscream",
+        "repositoryURL": "https://github.com/daltoniam/Starscream",
+        "state": {
+          "branch": null,
+          "revision": "6e10c04c8387d00f41a17450fa45b51427971022",
+          "version": "3.0.4"
+        }
+      },
+      {
+        "package": "Swifter",
+        "repositoryURL": "https://github.com/httpswift/swifter.git",
+        "state": {
+          "branch": null,
+          "revision": "c6d8ea04c7b5f00e7f688cff52100ecc8139f18a",
+          "version": "1.4.0"
+        }
+      },
+      {
+        "package": "TLS",
+        "repositoryURL": "https://github.com/vapor/tls.git",
+        "state": {
+          "branch": null,
+          "revision": "cfd8cc0f06841ee15469c5fc98131e47511f8e94",
+          "version": "3.0.0-rc.1.0.1"
+        }
+      },
+      {
+        "package": "SSCZLib",
+        "repositoryURL": "https://github.com/daltoniam/zlib-spm.git",
+        "state": {
+          "branch": null,
+          "revision": "83ac8d719a2f3aa775dbdf116a57f56fb2c49abb",
+          "version": "1.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
