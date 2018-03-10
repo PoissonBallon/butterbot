@@ -2,32 +2,27 @@ import SlackKit
 import MySQL
 import Foundation
 
-let bot = SlackKit()
-let env: Environment
-let database: Database
+let slackKit = SlackKit()
+let env = try! Environment()
+let database = Database(with: env)
+let karma = Karma(with: database)
 
-do {
-  env = try Environment()
-} catch {
-  fatalError(error.localizedDescription)
+
+karma.createTableIfNotExit()
+slackKit.addRTMBotWithAPIToken(env.slackBotToken)
+
+slackKit.notificationForEvent(.hello) { (event, _) in
+  print(event)
 }
 
-database = Database(with: env)
-database.information()
-//bot.addRTMBotWithAPIToken(slackBotToken)
-//// Register for event notifications
-//
-//bot.notificationForEvent(.hello) { (event, message) in
-//  if let channelID = event.channel?.id {
-//    try? bot.rtm?.sendMessage("I am alive", channelID: channelID)
-//  }
-//}
-//
-//bot.notificationForEvent(.message) { (event, _) in
-//  print(event.message)
-//  if let channelID = event.channel?.id {
-//    try? bot.rtm?.sendMessage("I am alive", channelID: channelID)
-//  }
-//}
+slackKit.notificationForEvent(.channelJoined) { (event, _) in
+  print(event)
+}
+
+slackKit.notificationForEvent(.message) { [unowned karma] (event, connection) in
+  print(event)
+  karma.event(event: event)
+}
+
 
 RunLoop.main.run()
