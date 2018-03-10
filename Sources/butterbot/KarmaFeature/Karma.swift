@@ -8,17 +8,25 @@
 import Foundation
 import SlackKit
 
-class Karma {
+class Karma: Feature {
   let database: Database
   let databaseTable: String = "Karma"
   
   init(with db:Database) {
     self.database = db
+    self.createTableIfNotExit()
   }
   
-  
-  func event(event: Event) {
+  func eventReceive(event: Event, client: ClientConnection) -> Void {
+    let context = KarmaContext(event: event, client: client)
     
+    do {
+      try addPointAction(context: context)
+      try removePointAction(context: context)
+    } catch {
+      print(error)
+    }
   }
-
+  
+  
 }
