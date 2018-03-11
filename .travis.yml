@@ -19,4 +19,4 @@ install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 
 script:
-  - swift build
+  - sh scripts/compile
