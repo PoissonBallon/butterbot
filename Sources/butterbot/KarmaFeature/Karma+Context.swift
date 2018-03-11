@@ -11,6 +11,7 @@ import SlackKit
 struct KarmaContext {
   let event: Event
   let client: ClientConnection
+  let database: Database
 }
 
 extension KarmaContext {
@@ -22,6 +23,11 @@ extension KarmaContext {
   
   var fromID: String? {
     return self.event.user?.id
+  }
+  
+  var isLeaderboard: Bool {
+    guard let text = event.text?.lowercased() else { return false }
+    return text.contains("leaderboard")
   }
   
   var mentionID: String? {

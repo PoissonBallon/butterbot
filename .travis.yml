@@ -1,0 +1,13 @@
+os:
+  - linux
+  - osx
+language: generic
+sudo: required
+dist: trusty
+osx_image: xcode9.3beta
+
+install:
+  - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+
+script:
+  - swift build
