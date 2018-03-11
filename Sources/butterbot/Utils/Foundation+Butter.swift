@@ -7,8 +7,20 @@
 
 import Foundation
 
+extension Int {
+
+  static func randomUniform(_ min: Int, _ max: Int) -> Int {
+    #if os(Linux)
+    return Int(random() % max) + min
+    #else
+    return Int(arc4random_uniform(UInt32(max)) + UInt32(min))
+    #endif
+  }
+
+}
+
 extension Array {
   var randomOne: Element  {
-    return self[Int(arc4random_uniform(UInt32(self.count)))]
+    return self[Int.randomUniform(0, self.count)]
   }
 }
