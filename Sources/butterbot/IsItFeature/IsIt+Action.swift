@@ -59,7 +59,7 @@ fileprivate extension IsItAction {
     } else if context.containsNoSuffix {
       return noMessage(channel: channelId)
     } else {
-      return (Int.random % 2 > 0) ? yesMessage(channel: channelId) : noMessage(channel: channelId)
+      return (Int.randomPos % 2 > 0) ? yesMessage(channel: channelId) : noMessage(channel: channelId)
     }
   }
   

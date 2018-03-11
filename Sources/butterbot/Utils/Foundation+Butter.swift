@@ -17,7 +17,7 @@ extension Int {
     #endif
   }
   
-  static var random: Int {
+  static var randomPos: Int {
     return Int.randomUniform(0, Int(UINT32_MAX))
   }
 
