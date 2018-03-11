@@ -1,0 +1,1 @@
+worker:  .swift-bin/butterbot
