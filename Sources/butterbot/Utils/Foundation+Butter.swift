@@ -16,6 +16,10 @@ extension Int {
     return Int(arc4random_uniform(UInt32(max)) + UInt32(min))
     #endif
   }
+  
+  static var random: Int {
+    return Int.randomUniform(0, Int(UINT32_MAX))
+  }
 
 }
 
