@@ -10,6 +10,11 @@ addons:
   apt:
     packages:
       - libmariadbclient-dev
+      - clang
+      - uuid-dev
+      - libjson-c-dev
+      - libmysqlclient-dev
+      - mysql-server
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
@@ -19,4 +24,4 @@ install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 
 script:
-  - sh scripts/compile
+  - swift build -c release
