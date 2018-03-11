@@ -15,7 +15,7 @@ struct IsItContext {
 }
 
 extension IsItContext {
-  static let isItPrefix = "Est-ce que"
+  static let isItPrefix = "Est-ce qu"
   static let yesSuffix = "-y"
   static let noSuffix = "-n"
 
