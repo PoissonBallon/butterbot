@@ -23,7 +23,8 @@ class ButterBot {
     
     self.database = Database(with: env)
     self.slackKit = SlackKit()
-    self.features = [Karma()]
+    self.features = [Karma(),
+                     IsIt()]
     slackKit.addRTMBotWithAPIToken(env.slackBotToken)
     self.listen(event: .message)
   }
