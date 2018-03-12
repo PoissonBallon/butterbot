@@ -10,7 +10,7 @@ import SlackKit
 import RxSwift
 
 struct IsIt: ButterFeature {
-  func actions(for event: ButterEvent) -> [ButterAction] { return [] }
+  func actions(for event: ButterEvent) -> [ButterAction] { return [IsItAction(event: event)] }
   func setup(database: Database) -> Observable<Bool> { return Observable.just(true) }
 }
 
