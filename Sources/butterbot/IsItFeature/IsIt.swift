@@ -7,20 +7,49 @@
 
 import Foundation
 import SlackKit
+import RxSwift
 
-class IsIt: Feature {
+struct IsIt: ButterFeature {
+  func actions(for event: ButterEvent) -> [ButterAction] { return [] }
+  func setup(database: Database) -> Observable<Bool> { return Observable.just(true) }
+}
+
+
+struct IsItAction: ButterAction {
+  let priority = 80
+  let event: ButterEvent
+  let actionName = "IsItAction"
   
-  func eventReceive(event: Event, client: ClientConnection) -> ButterMessage? {
-    let context = IsItContext(event: event, client: client)
-    let actions = IsItAction.all(with: context).sorted { $0.priority > $1.priority }
-    let action = actions.first { $0.isValid() }
-    do { return try action?.execute() }
-    catch { return self.errorMessage(error: error, context: context) }
+  
+  var isValid: Bool {
+    let parser = IsItParser(with: event)
+    return parser.containsIsItPrefix
   }
   
-  func errorMessage(error: Error, context: IsItContext) -> ButterMessage? {
-    guard let channelId = context.event.channel?.id else { return nil }
-    let message = "Butterbot failed : \(error)"
-    return ButterMessage(text: message, channelID: channelId)
+  func execute() -> Observable<ButterMessage?> {
+    let parser = IsItParser(with: event)
+    let bMessage: ButterMessage
+    guard let channelId = parser.event.channel?.id, parser.containsIsItPrefix else { return Observable.empty() }
+    
+    if parser.containsYesSuffix {
+      bMessage = yesMessage(channel: channelId)
+    } else if parser.containsNoSuffix {
+      bMessage = noMessage(channel: channelId)
+    } else {
+      bMessage = (Int.randomPos % 2 > 0) ? yesMessage(channel: channelId) : noMessage(channel: channelId)
+    }
+    return Observable.just(bMessage)
   }
+  
+  
+  func yesMessage(channel: String) -> ButterMessage {
+    let message = IIL10n.yes.randomOne
+    return ButterMessage(text: message, actionName: self.actionName, channelID: channel)
+  }
+  
+  func noMessage(channel: String) -> ButterMessage {
+    let message = IIL10n.not.randomOne
+    return ButterMessage(text: message, actionName: self.actionName, channelID: channel)
+  }
+  
 }

@@ -7,14 +7,18 @@
 
 import Foundation
 import SlackKit
+import RxSwift
 
-protocol Feature {
-  func eventReceive(event: Event, client: ClientConnection) -> ButterMessage?
+protocol ButterFeature {
+  func setup(database: Database) -> Observable<Bool>
+  func actions(for event: ButterEvent) -> [ButterAction]
 }
 
-protocol FeatureAction {
+protocol ButterAction {
   var priority: Int { get }
-  func isValid() -> Bool
-  func execute() throws -> ButterMessage
+  var isValid: Bool { get }
+  var event: ButterEvent { get }
+
+  func execute() -> Observable<ButterMessage?>
 }
 

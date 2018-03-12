@@ -7,24 +7,40 @@
 
 import Foundation
 import MySQL
+import RxSwift
+
+
 
 class Database {
-  let pool: ConnectionPool
+  let options: Database.Options
   
   init(with env: Environment) {
-    let options = Database.Options(with: env)
-    self.pool = ConnectionPool(options: options)
+    self.options = Database.Options(with: env)
   }
   
-  func information() {
-    do {
-      try pool.execute { (connection) -> Void in
-        let status = try connection.query("SHOW DATABASES;") as QueryStatus
-        print(status)
+  func query<T:Codable>(command: String) -> Observable<Database.Result<T>> {
+    return Observable.create { [unowned self] (observer) in
+      let pool = ConnectionPool(options: self.options)
+      do {
+        let tmp = try pool.execute({ (connection) -> Database.Result<T> in
+          let queryResult:([T], QueryStatus) = try connection.query(command)
+          return Database.Result(status: queryResult.1, result: queryResult.0)
+        })
+        observer.on(.next(tmp))
+      } catch {
+        observer.onError(error)
       }
-    } catch {
-      print(error)
+      observer.on(.completed)
+      return Disposables.create()
     }
+  }
+  
+}
+
+extension Database {
+  struct Result<T> {
+    let status: QueryStatus
+    let result: [T]
   }
 }
 

@@ -7,28 +7,22 @@
 
 import Foundation
 import SlackKit
+import RxSwift
 
-class Karma: Feature {
-  let database: Database
-  static let databaseTable: String = "karma"
+struct Karma: ButterFeature {
   
-  
-  required init(with db:Database) {
-    self.database = db
-    self.database.initKarmaTable()
+  func actions(for event: ButterEvent) -> [ButterAction] {
+    
+    return [
+      KarmaAddAction(event: event),
+      KarmaRemoveAction(event: event),
+      KarmaLeaderboardAction(event: event)
+    ]
   }
   
-  func eventReceive(event: Event, client: ClientConnection) -> ButterMessage? {
-    let context = KarmaContext(event: event, client: client, database: database)
-    let actions = KarmaAction.all(with: context).sorted { $0.priority > $1.priority }
-    let action = actions.first { $0.isValid() }
-    do { return try action?.execute() }
-    catch { return self.errorMessage(error: error, context: context) }
-  }
-  
-  func errorMessage(error: Error, context: KarmaContext) -> ButterMessage? {
-    guard let channelId = context.event.channel?.id else { return nil }
-    let message = "Butterbot failed : \(error)"
-    return ButterMessage(text: message, channelID: channelId)
+  func setup(database: Database) -> Observable<Bool> {
+    return database
+      .initKarmaTable()
+      .flatMap { _ in Observable.just(true) }
   }
 }

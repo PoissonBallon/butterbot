@@ -7,43 +7,43 @@
 
 import Foundation
 import MySQL
+import RxSwift
 
 struct KarmaRow: Codable, QueryParameter{
   let user: String
   let points: Int
 }
 
+extension Karma {
+  fileprivate static var databaseTable = "karma"
+}
+
 
 extension Database {
   
-  func initKarmaTable() {
+  func initKarmaTable() -> Observable<Database.Result<KarmaRow>> {
     let command = "CREATE TABLE \(Karma.databaseTable) (user VARCHAR(30) NOT NULL PRIMARY KEY, points INT(6) NOT NULL)"
-    let _ = try? self.pool.execute { try? $0.query(command) }
+    return self.query(command: command)
   }
 
-  func addPoint(for user: String) throws -> Int {
+  func addPoint(for user: String) -> Observable<Database.Result<KarmaRow>>{
     let command = "INSERT INTO \(Karma.databaseTable) (user, points) VALUES('\(user)', 1) ON DUPLICATE KEY UPDATE points = points + 1;"
-    let _ = try self.pool.execute { try $0.query(command) as QueryStatus }
-    return try self.countPoint(for: user)
+    return self.query(command: command)
   }
   
-  func removePoint(for user: String) throws -> Int {
+  func removePoint(for user: String) -> Observable<Database.Result<KarmaRow>> {
     let command = "INSERT INTO \(Karma.databaseTable) (user, points) VALUES('\(user)', -1) ON DUPLICATE KEY UPDATE points = points - 1;"
-    let _ = try self.pool.execute { try $0.query(command) as QueryStatus }
-    return try self.countPoint(for: user)
+    return self.query(command: command)
   }
   
-  func countPoint(for user: String) throws -> Int {
+  func countPoint(for user: String) -> Observable<Database.Result<KarmaRow>> {
     let command = "SELECT * FROM \(Karma.databaseTable) WHERE user = '\(user)';"
-    let rows = try self.pool.execute { try $0.query(command) as [KarmaRow] }
-    guard let item = rows.first else { return 0 }
-    return item.points
+    return self.query(command: command)
   }
   
-  func topPoint() throws -> [KarmaRow] {
+  func topPoint() -> Observable<Database.Result<KarmaRow>> {
     let limit = 25
     let command = "SELECT * FROM \(Karma.databaseTable) ORDER BY points DESC LIMIT \(limit);"
-    let rows = try self.pool.execute { try $0.query(command) as [KarmaRow] }
-    return rows
+    return self.query(command: command)
   }
 }

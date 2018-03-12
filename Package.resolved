@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "3e848781c7756accced855a6317a4c2ff5e8588b",
+          "version": "4.1.2"
+        }
+      },
+      {
         "package": "SKClient",
         "repositoryURL": "https://github.com/SlackKit/SKClient",
         "state": {
@@ -48,11 +57,11 @@
       },
       {
         "package": "SKRTMAPI",
-        "repositoryURL": "https://github.com/SlackKit/SKRTMAPI",
+        "repositoryURL": "https://github.com/NoRespect/SKRTMAPI",
         "state": {
-          "branch": null,
-          "revision": "aaa6d9146aa090215f6e05964bf1d5b3e1d73d90",
-          "version": "4.1.1"
+          "branch": "master",
+          "revision": "1bc8788c2f3fe459ae58850035996f6d90302c9d",
+          "version": null
         }
       },
       {
@@ -78,7 +87,7 @@
         "repositoryURL": "https://github.com/NoRespect/SlackKit.git",
         "state": {
           "branch": "master",
-          "revision": "5a541fde8d61d59512baa51f7d98856f6097c059",
+          "revision": "5c901e093a6406c000dbc21b5bd354f52fe526c7",
           "version": null
         }
       },
@@ -98,6 +107,15 @@
           "branch": null,
           "revision": "c6d8ea04c7b5f00e7f688cff52100ecc8139f18a",
           "version": "1.4.0"
+        }
+      },
+      {
+        "package": "SwiftyBeaver",
+        "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+        "state": {
+          "branch": null,
+          "revision": "f24921e83cc356fce6ee12cb6120ab57896de3d6",
+          "version": "1.5.1"
         }
       },
       {

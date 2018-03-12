@@ -9,33 +9,36 @@ import Foundation
 
 import SlackKit
 
-struct IsItContext {
+struct IsItParser {
   let event: Event
-  let client: ClientConnection
+  
+  init(with event: ButterEvent) {
+    self.event = event.event
+  }
 }
 
-extension IsItContext {
+extension IsItParser {
   static let isItPrefix = "Est-ce qu"
   static let yesSuffix = "-y"
   static let noSuffix = "-n"
 
 }
 
-extension IsItContext {
+extension IsItParser {
   
   var containsIsItPrefix: Bool {
-    guard let text = event.text else { return false }
-    return text.contains(IsItContext.isItPrefix)
+    guard let text = event.text?.lowercased() else { return false }
+    return text.contains(IsItParser.isItPrefix.lowercased())
   }
   
   var containsYesSuffix: Bool {
     guard let text = event.text else { return false }
-    return text.contains(IsItContext.yesSuffix)
+    return text.contains(IsItParser.yesSuffix)
   }
   
   var containsNoSuffix: Bool {
     guard let text = event.text else { return false }
-    return text.contains(IsItContext.noSuffix)
+    return text.contains(IsItParser.noSuffix)
   }
   
 }
