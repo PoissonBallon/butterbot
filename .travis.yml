@@ -6,6 +6,8 @@ sudo: required
 dist: trusty
 osx_image: xcode9.3beta
 
+services: mysql
+
 addons:
   apt:
     packages:
