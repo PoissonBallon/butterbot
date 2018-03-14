@@ -9,8 +9,6 @@ import Foundation
 import MySQL
 import RxSwift
 
-
-
 class Database {
   let options: Database.Options
   

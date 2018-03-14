@@ -44,12 +44,12 @@ struct IsItAction: ButterAction {
   
   func yesMessage(channel: String) -> ButterMessage {
     let message = IIL10n.yes.randomOne
-    return ButterMessage(text: message, actionName: self.actionName, channelID: channel)
+    return ButterMessage(text: message, actionName: self.actionName, attachments: nil, channelID: channel)
   }
   
   func noMessage(channel: String) -> ButterMessage {
     let message = IIL10n.not.randomOne
-    return ButterMessage(text: message, actionName: self.actionName, channelID: channel)
+    return ButterMessage(text: message, actionName: self.actionName, attachments: nil, channelID: channel)
   }
   
 }

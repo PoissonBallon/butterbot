@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import SlackKit
 
 struct KarmaLeaderboardAction: ButterAction {
   let priority = 100
@@ -31,18 +32,45 @@ struct KarmaLeaderboardAction: ButterAction {
     
     return event.database.topPoint()
       .flatMap { (result) -> Observable<ButterMessage?> in
-
+        
         let rows = result.result
-        var message = "Top :sports_medal: :\n"
-        rows.enumerated().forEach {
-          message.append("\t \($0.offset). ")
-          message.append("\($0.element.user) : \($0.element.points) points")
-          if $0.offset == 0 { message.append(" :tada: ") }
-          message.append("\n")
+        let message = "Top :sports_medal: :\n"
+        
+        let users = rows.filter { $0.user.contains("<@")}
+        let things = rows.filter{ $0.user.contains("<@") == false }
+        var usersAttachValues = ""
+        var thingsAttachValues = ""
+        
+        users.enumerated().forEach {
+          usersAttachValues.append("\($0.offset + 1). ")
+          usersAttachValues.append("\($0.element.user) : \($0.element.points) points")
+          if $0.offset == 0 { usersAttachValues.append(" :tada: ") }
+          usersAttachValues.append("\n")
         }
-        let bMessage = ButterMessage(text: message, actionName: self.actionName, channelID: channelId)
+        
+        things.enumerated().forEach {
+          thingsAttachValues.append("\($0.offset + 1). ")
+          thingsAttachValues.append("\($0.element.user) : \($0.element.points) points")
+          if $0.offset == 0 { thingsAttachValues.append(" :tada: ") }
+          thingsAttachValues.append("\n")
+        }
+
+        let userFields = AttachmentField(title: "Users :", value: usersAttachValues, short: true)
+        let thingsFields = AttachmentField(title: "Things :", value: thingsAttachValues, short: true)
+        let attachment = KarmaLeaderboardAction.generateAttachments(title: "", fields: [userFields,thingsFields])
+        
+        let bMessage = ButterMessage(text: message, actionName: self.actionName, attachments: [attachment], channelID: channelId)
         return Observable.just(bMessage)
     }
+  }
+  
+  static func generateAttachments(title: String, fields: [AttachmentField]) -> Attachment {
+    return Attachment(
+      fallback: title, title: title, callbackID: nil, type: nil,
+      colorHex: "#DAE55C", pretext: nil, authorName: nil, authorLink: nil,
+      authorIcon: nil, titleLink: nil, text: nil, fields: fields,
+      actions: nil, imageURL: nil, thumbURL: nil, footer: nil,
+      footerIcon: nil, ts: nil, markdownFields: nil)
   }
 }
 
