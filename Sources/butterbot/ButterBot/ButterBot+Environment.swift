@@ -8,9 +8,6 @@
 import Foundation
 
 struct Environment {
-  let slackClientID: String
-  let slackClientSecret: String
-  let slackVerifToken: String
   let slackBotToken: String
   let mysqlURL: String
   let mysqlUser: String
@@ -18,9 +15,6 @@ struct Environment {
   let mysqlDBName: String
   
   init() throws {
-    self.slackClientID =      try Environment.getEnvValue(key: "SLACK_CLIENT_ID")
-    self.slackClientSecret =  try Environment.getEnvValue(key: "SLACK_CLIENT_SECRET")
-    self.slackVerifToken =    try Environment.getEnvValue(key: "SLACK_VERIF_TOKEN")
     self.slackBotToken =      try Environment.getEnvValue(key: "SLACK_BOT_TOKEN")
     self.mysqlURL =           try Environment.getEnvValue(key: "MYSQL_URL")
     self.mysqlUser =          try Environment.getEnvValue(key: "MYSQL_USER")
