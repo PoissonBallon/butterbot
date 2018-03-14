@@ -35,7 +35,7 @@ struct KarmaAddAction: ButterAction {
         let point = result.result.first?.points ?? 0
         let message = "\(KL10n.congrats.randomOne) [\(target) : \(point) points]"
   
-        let bMessage = ButterMessage(text: message, actionName: self.actionName, channelID: channelId)
+        let bMessage = ButterMessage(text: message, actionName: self.actionName, attachments: nil, channelID: channelId)
         return Observable.just(bMessage)
     }
   }
