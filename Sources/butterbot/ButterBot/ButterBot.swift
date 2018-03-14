@@ -26,14 +26,13 @@ class ButterBot {
     self.features = [Karma(),
                      IsIt()]
     slackKit.addRTMBotWithAPIToken(env.slackBotToken)
+    slackKit.addWebAPIAccessWithToken(env.slackBotToken)
     self.listen(event: .message)
   }
   
   func setup() {
-    let setups = self.features.compactMap { $0.setup(database: self.database)}
-    Observable.from(setups)
-      .subscribe()
-      .disposed(by: self.disposeBag)
+    let setups = self.features.compactMap { $0.setup(database: self.database) }
+    Observable.from(setups).subscribe().disposed(by: self.disposeBag)
     logger.info("Butterbot Started")
   }
   
@@ -47,9 +46,9 @@ class ButterBot {
       return Observable.just(action)
       }
       .flatMap { return $0.execute() }
+      .flatMap { return self.sendWebMessag(message: $0) }
       .subscribe(onNext: { (message) in
         logger.info("[Send Message] : \(message)")
-        self.sendMessage(message: message)
       }, onError: { (error) in
         logger.error("[Error] : \(error)")
       }, onCompleted: {
