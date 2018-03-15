@@ -53,7 +53,7 @@ extension KarmaParser {
     let base = 5
     guard let textComponents = event.text?.lowercased().components(separatedBy: " ") else { return base }
     guard textComponents.count >= 3 else { return base }
-    guard let count = Int(textComponents[2]) else { return base }
+    guard let count = Int(textComponents[2]), count > 0 else { return base }
     return count
   }
 
