@@ -48,7 +48,7 @@ class ButterBot {
       .flatMap { return $0.execute() }
       .flatMap { return self.sendWebMessag(message: $0) }
       .subscribe(onNext: { (message) in
-        logger.info("[Send Message] : \(message)")
+        logger.info("[Send] - {For:\(message.actionName)} = \(message)")
       }, onError: { (error) in
         logger.error("[Error] : \(error)")
       }, onCompleted: {

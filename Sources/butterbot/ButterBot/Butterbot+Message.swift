@@ -18,8 +18,8 @@ struct ButterMessage {
 
 extension ButterBot {
   
-  func sendWebMessag(message: ButterMessage?) -> Observable<Bool> {
-    guard let message = message else { return Observable.just(false) }
+  func sendWebMessag(message: ButterMessage?) -> Observable<ButterMessage> {
+    guard let message = message else { return Observable.empty() }
     
     return Observable.create { [unowned self] (observer) -> Disposable in
       self.slackKit.webAPI?.sendMessage(channel: message.channelID,
@@ -34,7 +34,7 @@ extension ButterBot {
                                         iconURL: nil,
                                         iconEmoji: nil,
                                         success: { (ts, channel) in
-        observer.onNext(true)
+        observer.onNext(message)
       }, failure: { (error) in
         observer.onError(error)
       })
