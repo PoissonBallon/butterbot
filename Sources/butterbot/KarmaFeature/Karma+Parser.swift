@@ -48,6 +48,14 @@ extension KarmaParser {
     guard let text = event.text?.lowercased() else { return false }
     return text.contains("leaderboard")
   }
+  
+  var leaderboardCount: Int {
+    let base = 5
+    guard let textComponents = event.text?.lowercased().components(separatedBy: " ") else { return base }
+    guard textComponents.count >= 3 else { return base }
+    guard let count = Int(textComponents[2]) else { return base }
+    return count
+  }
 
   var countComponents: Int {
     return event.text?.components(separatedBy: " ").count ?? 0

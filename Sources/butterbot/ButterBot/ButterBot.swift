@@ -33,11 +33,11 @@ class ButterBot {
   func setup() {
     let setups = self.features.compactMap { $0.setup(database: self.database) }
     Observable.from(setups).subscribe().disposed(by: self.disposeBag)
-    logger.info("Butterbot Started")
+    logger.info("Butterbot Started\n")
   }
   
   func run() {
-    logger.info("Butterbot Run ")
+    logger.info("Butterbot Run\n")
     self.subject
       .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
       .observeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
@@ -48,11 +48,13 @@ class ButterBot {
       .flatMap { return $0.execute() }
       .flatMap { return self.sendWebMessag(message: $0) }
       .subscribe(onNext: { (message) in
-        logger.info("[Send] - {For:\(message.actionName)} = \(message)")
+        logger.info("-------------------\n")
+        logger.info("[Send] - {For:\(message.actionName)} = \(message)\n")
+        logger.info("-------------------\n")
       }, onError: { (error) in
-        logger.error("[Error] : \(error)")
+        logger.error("[Error] : \(error)\n")
       }, onCompleted: {
-        logger.warning("[Subject is completed]")
+        logger.warning("[Subject is completed]\n")
       }).disposed(by: self.disposeBag)
   }
 }
