@@ -8,15 +8,16 @@ ButterBot
 </h3>
 
 ------
+
 [![Swift 4.1](https://img.shields.io/badge/Language-Swift%204-orange.svg)](https://developer.apple.com/swift/)
 [![HitCount](http://hits.dwyl.com/NoRespect/ButterBot.svg)](http://hits.dwyl.com/NoRespect/ButterBot)
 [![License](https://img.shields.io/badge/License-WTFPL-blue.svg)](http://www.wtfpl.net/)
 
-Butterbot, is a blazingly dumb bot, write in Swift (beta language) with not stable library.
+Butterbot, is a blazingly dumb bot written in Swift (beta language) with no stable library.
 
 This project doesn't use IA / Machine learning / Neural Network, or *[random_hype_technology]* but just a fucking good old fashion parser.
 
-# Functionally
+# Functionalities
 
 All the architecture is designed to add easily feature but the question is : Will I have the motivation to do it ?
 
@@ -26,51 +27,48 @@ Coz I can,
 
 ## Karma
 
-Add and remove points to create incredible war and bad ambiance on your slack.
+Add and remove points to create incredible war and bad mood on your slack.
 
 #### Usage :
 
 <table style="width:100%">
-  <tr>
-    <th>Command</th>
-    <th>Usage</th>
-    <th>Example</th>
-  </tr>
-  <tr>
-    <td>Add Point</td>
-    <td>Add point to a member or things</td>
-    <td>@poisson ++ <i>or</i> #things ++</td>
-  </tr>
-  <tr>
-    <td>Remove Point</td>
-    <td>Remove point to a member or things</td>
-    <td>@poisson -- <i>or</i> #things --</td>
-  </tr>
-  <tr>
-    <td>Leaderboard</td>
-    <td>Show top X member or things</td>
-    <td>@butterbot leaderboard <i>[optional_top]<i> </td>
-  </tr>
+ <tr>
+  <th>Command</th>
+  <th>Usage</th>
+  <th>Example</th>
+ </tr>
+ <tr>
+  <td>Add Point</td>
+  <td>Add point to a member or thing</td>
+  <td>@poisson ++ <i>or</i> #thing ++</td>
+ </tr>
+ <tr>
+  <td>Remove Point</td>
+  <td>Remove point to a member or thing</td>
+  <td>@poisson -- <i>or</i> #thing --</td>
+ </tr>
+ <tr>
+  <td>Leaderboard</td>
+  <td>Show top X member or thing</td>
+  <td>@butterbot leaderboard <i>[optional_top]<i> </td>
+ </tr>
 </table>
 
 #### Screenshot :
 
 <img src="./Assets/leaderboard_screen.png" width="500" />
 
-
 ## IsIt
 
-Butterbot answer at any sentence with `Est-ce que`
+Butterbot answers any sentence with `Est-ce que`
 
 #### Screenshot :
 
 <img src="./Assets/isit_screen.png" width="300" />
 
-
 ## TalkTooMuch
 
 < Coming Soon >
-
 
 # Installation
 
@@ -80,7 +78,6 @@ Butterbot answer at any sentence with `Est-ce que`
 
 * PoissonBallon [@poissonballon](https://twitter.com/poissonballon)
 * All NoRespect Team https://github.com/orgs/NoRespect/people
-
 
 # License
 
