@@ -56,7 +56,7 @@ Add and remove points to create incredible war and bad mood on your slack.
 
 #### Screenshot :
 
-<img src="./Assets/leaderboard_screen.png" width="500" />
+<img src="./Assets/screen_leaderboard.png" width="500" />
 
 ## IsIt
 
@@ -64,7 +64,7 @@ Butterbot answers any sentence with `Est-ce que`
 
 #### Screenshot :
 
-<img src="./Assets/isit_screen.png" width="300" />
+<img src="./Assets/screen_isit.png" width="300" />
 
 ## TalkTooMuch
 
