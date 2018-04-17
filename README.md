@@ -13,7 +13,7 @@ ButterBot
 [![HitCount](http://hits.dwyl.com/NoRespect/ButterBot.svg)](http://hits.dwyl.com/NoRespect/ButterBot)
 [![License](https://img.shields.io/badge/License-WTFPL-blue.svg)](http://www.wtfpl.net/)
 
-Butterbot, is a blazingly dumb bot written in Swift (beta language) with no stable library.
+Butterbot is a blazingly dumb bot written in Swift (beta language) with no stable library.
 
 This project doesn't use IA / Machine learning / Neural Network, or *[random_hype_technology]* but just a fucking good old fashion parser.
 
