@@ -30,7 +30,7 @@ struct KarmaLeaderboardAction: ButterAction {
     
     guard let channelId = parser.event.channel?.id else { return Observable.error(KarmaError.errorToParseInformation) }
     
-    return event.database.topPoint()
+    return event.database.topPoint(with: parser.leaderboardCount)
       .flatMap { (result) -> Observable<ButterMessage?> in
         
         let rows = result.result

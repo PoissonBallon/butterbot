@@ -41,8 +41,7 @@ extension Database {
     return self.query(command: command)
   }
   
-  func topPoint() -> Observable<Database.Result<KarmaRow>> {
-    let limit = 25
+  func topPoint(with limit: Int) -> Observable<Database.Result<KarmaRow>> {
     let command = "SELECT * FROM \(Karma.databaseTable) ORDER BY points DESC LIMIT \(limit);"
     return self.query(command: command)
   }
