@@ -41,8 +41,14 @@ extension Database {
     return self.query(command: command)
   }
   
-  func topPoint(with limit: Int) -> Observable<Database.Result<KarmaRow>> {
-    let command = "SELECT * FROM \(Karma.databaseTable) ORDER BY points DESC LIMIT \(limit);"
+  func topUsersPoint(with limit: Int) -> Observable<Database.Result<KarmaRow>> {
+    let command = "SELECT * FROM \(Karma.databaseTable) WHERE user LIKE '<@%' ORDER BY points DESC LIMIT \(limit);"
     return self.query(command: command)
   }
+
+  func topThingsPoint(with limit: Int) -> Observable<Database.Result<KarmaRow>> {
+    let command = "SELECT * FROM \(Karma.databaseTable)  WHERE user NOT LIKE '<@%' ORDER BY points DESC LIMIT \(limit);"
+    return self.query(command: command)
+  }
+
 }

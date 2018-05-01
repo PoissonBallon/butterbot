@@ -42,15 +42,16 @@ class ButterBot {
       .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
       .observeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
       .flatMap { (event) -> Observable<ButterAction> in
-      guard let action: ButterAction = self.chooseBestAction(for: event) else { return Observable.empty() }
-      return Observable.just(action)
+        logger.verbose("[Info] - {Event} : \(event.event.type?.rawValue ?? "Unknown")")
+        logger.verbose("[Info] - {Message} : \(event.event.text ?? "NO_MESSAGE")")
+
+        guard let action: ButterAction = self.chooseBestAction(for: event) else { return Observable.empty() }
+        return Observable.just(action)
       }
       .flatMap { return $0.execute() }
       .flatMap { return self.sendWebMessag(message: $0) }
       .subscribe(onNext: { (message) in
-        logger.info("-------------------\n")
-        logger.info("[Send] - {For:\(message.actionName)} = \(message)\n")
-        logger.info("-------------------\n")
+        logger.info("[Info] - {Action} : \(message.actionName)")
       }, onError: { (error) in
         logger.error("[Error] : \(error)\n")
       }, onCompleted: {

@@ -30,25 +30,38 @@ struct KarmaLeaderboardAction: ButterAction {
     
     guard let channelId = parser.event.channel?.id else { return Observable.error(KarmaError.errorToParseInformation) }
     
-    return event.database.topPoint(with: parser.leaderboardCount)
-      .flatMap { (result) -> Observable<ButterMessage?> in
-        
-        let rows = result.result
-        let count = parser.leaderboardCount
-        let message = "Top :sports_medal: :\n"
-        
-        let users = rows.filter { $0.user.contains("<@")}.prefix(count)
-        let things = rows.filter{ $0.user.contains("<@") == false }.prefix(count)
-        
-        let fields = [
-          KarmaLeaderboardAction.makeField(from: Array(users), with: "Users"),
-          KarmaLeaderboardAction.makeField(from: Array(things), with: "Things")
-        ]
-        
+    let message = "Top :sports_medal: :\n"
+    var fields = [AttachmentField]()
+
+    return self.executeUser(parser: parser)
+      .flatMap { (field) -> Observable<AttachmentField> in
+        fields.append(field)
+        return self.executeThings(parser: parser)
+      }.flatMap { (field) -> Observable<ButterMessage?> in
+        fields.append(field)
         let attachments = KarmaLeaderboardAction.makeAttachments(title: "", fields: fields)
-        
         let bMessage = ButterMessage(text: message, actionName: self.actionName, attachments: [attachments], channelID: channelId)
         return Observable.just(bMessage)
+    }
+  }
+  
+  func executeThings(parser: KarmaParser) -> Observable<AttachmentField> {
+    return event.database
+      .topThingsPoint(with: parser.leaderboardCount)
+      .flatMap { (result) -> Observable<AttachmentField> in
+        let rows = result.result
+        let attachment = KarmaLeaderboardAction.makeField(from: Array(rows), with: "Things")
+        return Observable.just(attachment)
+    }
+  }
+  
+  func executeUser(parser: KarmaParser) -> Observable<AttachmentField> {
+    return event.database
+      .topUsersPoint(with: parser.leaderboardCount)
+      .flatMap { (result) -> Observable<AttachmentField> in
+        let rows = result.result
+        let attachment = KarmaLeaderboardAction.makeField(from: Array(rows), with: "Users")
+        return Observable.just(attachment)
     }
   }
   
