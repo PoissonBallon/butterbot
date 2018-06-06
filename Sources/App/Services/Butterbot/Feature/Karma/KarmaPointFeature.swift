@@ -39,9 +39,9 @@ extension KarmaPointFeature {
         .first()
         .flatMap {
           var karmaPoint = $0 ?? KarmaPoint(target: self.parser.target, point: 0, teamId: self.parser.teamId)
-          if self.parser.isCheater { karmaPoint.point = (karmaPoint.point - 1) }
+          if self.parser.isCheater { karmaPoint.point = (karmaPoint.point - 2) }
           else if self.parser.containsAddSuffix { karmaPoint.point = (karmaPoint.point + 1)}
-          else if self.parser.containsRemoveSuffix { karmaPoint.point = (karmaPoint.point - 2)}
+          else if self.parser.containsRemoveSuffix { karmaPoint.point = (karmaPoint.point - 1)}
           return karmaPoint.save(on: connection)
       }
       }.map { (karmaPoint) -> ButterbotMessage? in
