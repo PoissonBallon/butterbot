@@ -18,6 +18,8 @@ Butterbot is a blazingly dumb bot written in Swift 4.1 with Vapor 3.
 
 This project doesn't use IA / Machine learning / Neural Network, or *[random_hype_technology]* but just a fucking good old fashion parser.
 
+**Butterbot talk only in french for now :confused:** :fr:
+
 # Functionalities
 
 All the architecture is designed to add easily feature but the question is : Will I have the motivation to do it ?
