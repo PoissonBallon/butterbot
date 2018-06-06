@@ -9,11 +9,12 @@ ButterBot
 
 ------
 
-[![Swift 4.1](https://img.shields.io/badge/Language-Swift%204-orange.svg)](https://developer.apple.com/swift/)
+[![Swift 4.1](https://img.shields.io/badge/Language-Swift%204.1-orange.svg)](https://developer.apple.com/swift/)
+[![Vapor 3](https://img.shields.io/badge/build%20with-vapor3-b466ef.svg)](https://github.com/vapor/vapor)
 [![HitCount](http://hits.dwyl.com/NoRespect/ButterBot.svg)](http://hits.dwyl.com/NoRespect/ButterBot)
 [![License](https://img.shields.io/badge/License-WTFPL-blue.svg)](http://www.wtfpl.net/)
 
-Butterbot is a blazingly dumb bot written in Swift (beta language) with Vapor 3.
+Butterbot is a blazingly dumb bot written in Swift 4.1 with Vapor 3.
 
 This project doesn't use IA / Machine learning / Neural Network, or *[random_hype_technology]* but just a fucking good old fashion parser.
 

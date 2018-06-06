@@ -35,7 +35,7 @@ extension AskMeFeature {
     init?(with event: SlackEvent) {
       guard let authedUser = event.authedUsers.first else { return nil }
       guard event.event.text.components(separatedBy: " ").contains("<@\(authedUser)>") else { return nil }
-      guard event.event.text.contains("Est-ce qu") else { return nil }
+      guard event.event.text.lowercased().contains("Est-ce qu") else { return nil }
     }
   }
 }
