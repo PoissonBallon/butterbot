@@ -1,17 +1,16 @@
 // swift-tools-version:4.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
-  name: "butterbot",
+  name: "ButterBot",
   dependencies: [
-    .package(url: "https://github.com/SlackKit/SlackKit.git", .upToNextMinor(from: "4.1.0")),
-    .package(url: "https://github.com/novi/mysql-swift.git", from: "0.9.0-beta.2"),
-    .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMinor(from: "4.1.2")),
-    .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", .upToNextMinor(from: "1.5.1"))
+    .package(url: "https://github.com/vapor/vapor.git", .upToNextMinor(from: "3.0.0")),
+    .package(url: "https://github.com/vapor/fluent-postgresql.git", from: "1.0.0-rc.2.3"),
+    .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc.2.2")
   ],
   targets: [
-    .target(name: "butterbot", dependencies: ["SlackKit","MySQL", "RxSwift", "SwiftyBeaver"]),
-    ]
+    .target(name: "App", dependencies: ["FluentPostgreSQL", "Leaf", "Vapor"]),
+    .target(name: "Run", dependencies: ["App"]),
+    .testTarget(name: "AppTests", dependencies: ["App"])
+  ]
 )

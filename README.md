@@ -13,13 +13,18 @@ ButterBot
 [![HitCount](http://hits.dwyl.com/NoRespect/ButterBot.svg)](http://hits.dwyl.com/NoRespect/ButterBot)
 [![License](https://img.shields.io/badge/License-WTFPL-blue.svg)](http://www.wtfpl.net/)
 
-Butterbot is a blazingly dumb bot written in Swift (beta language) with no stable library.
+Butterbot is a blazingly dumb bot written in Swift (beta language) with Vapor 3.
 
 This project doesn't use IA / Machine learning / Neural Network, or *[random_hype_technology]* but just a fucking good old fashion parser.
 
 # Functionalities
 
 All the architecture is designed to add easily feature but the question is : Will I have the motivation to do it ?
+
+# Installation
+
+<a href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=18376735542.351461878310"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+
 
 ## Why ?
 
@@ -58,7 +63,7 @@ Add and remove points to create incredible war and bad mood on your slack.
 
 <img src="./Assets/screen_leaderboard.png" width="500" />
 
-## IsIt
+## AskMe
 
 Butterbot answers any sentence with `Est-ce que`
 
@@ -67,10 +72,6 @@ Butterbot answers any sentence with `Est-ce que`
 <img src="./Assets/screen_isit.png" width="300" />
 
 ## TalkTooMuch
-
-< Coming Soon >
-
-# Installation
 
 < Coming Soon >
 
