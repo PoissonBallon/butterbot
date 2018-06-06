@@ -10,7 +10,7 @@ ButterBot
 ------
 
 [![Swift 4.1](https://img.shields.io/badge/Language-Swift%204.1-orange.svg)](https://developer.apple.com/swift/)
-[![Vapor 3](https://img.shields.io/badge/build%20with-vapor3-b466ef.svg)](https://github.com/vapor/vapor)
+[![Vapor 3](https://img.shields.io/badge/build%20with-vapor3-DF43F6.svg)](https://github.com/vapor/vapor)
 [![HitCount](http://hits.dwyl.com/NoRespect/ButterBot.svg)](http://hits.dwyl.com/NoRespect/ButterBot)
 [![License](https://img.shields.io/badge/License-WTFPL-blue.svg)](http://www.wtfpl.net/)
 
