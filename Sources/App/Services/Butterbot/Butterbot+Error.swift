@@ -8,5 +8,6 @@
 import Foundation
 
 enum ButterbotError: Error {
-  case butterbotNotRegister
+  case notRegister
+  case slackWebApiError
 }

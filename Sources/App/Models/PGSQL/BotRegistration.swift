@@ -20,7 +20,7 @@ struct BotRegistration: Content, PostgreSQLModel {
   let botAccessToken: String
   
   init(with authToken: SlackAuthToken) {
-    self.id = nil
+    self.id = authToken.teamId.hashValue
     self.accessToken = authToken.accessToken
     self.scope = authToken.scope
     self.teamName = authToken.teamName

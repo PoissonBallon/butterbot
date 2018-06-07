@@ -22,6 +22,7 @@ extension Butterbot {
       try container.client().post(Butterbot.slackChatPostMessageURL) {
         try $0.content.encode(slackMessage)
         $0.http.headers.add(name: .authorization, value: "Bearer \(token)")
+        $0.http.headers.add(name: .keepAlive, value: "timeout=2, max=1000")
         }.map { $0.http }
     }
   }
@@ -34,7 +35,7 @@ extension Butterbot {
       return try connection
         .query(BotRegistration.self)
         .filter(\BotRegistration.teamId == event.teamId)
-        .first().map { $0?.botAccessToken }.unwrap(or: ButterbotError.butterbotNotRegister)
+        .first().map { $0?.botAccessToken }.unwrap(or: ButterbotError.notRegister)
     }
   }
   

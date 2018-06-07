@@ -23,7 +23,9 @@ final class SlackAuthController {
       }.flatMap { (response) -> EventLoopFuture<SlackAuthToken> in 
         return try response.content.decode(SlackAuthToken.self)
       } .flatMap { (authToken) -> EventLoopFuture<BotRegistration> in
-        return req.withPooledConnection(to: .psql) { BotRegistration(with: authToken).create(on: $0) }
+        return req.withPooledConnection(to: .psql) {
+          BotRegistration(with: authToken).save(on: $0)
+        }
       }.flatMap { _ in
         let leaf = try req.make(LeafRenderer.self)
         let context = [String: String]()
@@ -56,6 +58,10 @@ extension SlackAuthController {
     let bot = try req.make(Butterbot.self)
     return try req.content.decode(SlackEvent.self).flatMap {
       return bot.action(to: $0, on: req)
+      }.mapIfError {
+        let logger = try? req.make(Logger.self)
+        logger?.report(error: $0)
+        return HTTPResponse(status: .noContent)
     }
   }
 }
