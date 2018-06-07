@@ -9,18 +9,20 @@ import Foundation
 import Vapor
 import FluentPostgreSQL
 
-struct BotRegistration: Content, PostgreSQLModel {
+struct BotRegistration: Content, Model {
+  typealias ID = String
   
-  var id: Int?
-  let accessToken: String
-  let scope: String
-  let teamName: String
-  let teamId: String
-  let botUserId: String
-  let botAccessToken: String
+  typealias Database = PostgreSQLDatabase
+  static var idKey: WritableKeyPath<BotRegistration, String?> { return \.teamId }
+
+  var teamId: String?
+  var accessToken: String
+  var scope: String
+  var teamName: String
+  var botUserId: String
+  var botAccessToken: String
   
   init(with authToken: SlackAuthToken) {
-    self.id = authToken.teamId.hashValue
     self.accessToken = authToken.accessToken
     self.scope = authToken.scope
     self.teamName = authToken.teamName

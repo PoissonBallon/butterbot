@@ -24,7 +24,7 @@ final class SlackAuthController {
         return try response.content.decode(SlackAuthToken.self)
       } .flatMap { (authToken) -> EventLoopFuture<BotRegistration> in
         return req.withPooledConnection(to: .psql) {
-          BotRegistration(with: authToken).save(on: $0)
+          return BotRegistration(with: authToken).save(on: $0)
         }
       }.flatMap { _ in
         let leaf = try req.make(LeafRenderer.self)
