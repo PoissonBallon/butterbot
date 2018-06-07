@@ -9,6 +9,8 @@ import Foundation
 import Vapor
 import HTTP
 import Leaf
+import Fluent
+
 
 final class SlackAuthController {
   
@@ -24,7 +26,7 @@ final class SlackAuthController {
         return try response.content.decode(SlackAuthToken.self)
       } .flatMap { (authToken) -> EventLoopFuture<BotRegistration> in
         return req.withPooledConnection(to: .psql) {
-          return BotRegistration(with: authToken).save(on: $0)
+          return BotRegistration(with: authToken).create(on: $0)
         }
       }.flatMap { _ in
         let leaf = try req.make(LeafRenderer.self)
@@ -56,10 +58,11 @@ extension SlackAuthController {
   
   func eventCallback(req: Request) throws -> EventLoopFuture<HTTPResponse> {
     let bot = try req.make(Butterbot.self)
+    let logger = try? req.make(Logger.self)
+    
     return try req.content.decode(SlackEvent.self).flatMap {
       return bot.action(to: $0, on: req)
       }.mapIfError {
-        let logger = try? req.make(Logger.self)
         logger?.report(error: $0)
         return HTTPResponse(status: .noContent)
     }

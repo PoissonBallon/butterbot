@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Vapor
 
 enum ButterbotError: Error {
   case notRegister
