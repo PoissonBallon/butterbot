@@ -25,3 +25,10 @@ struct KarmaPoint: Content, PostgreSQLModel {
 }
 
 extension KarmaPoint: Migration {}
+
+extension KarmaPoint {
+  func willCreate(on conn: PostgreSQLConnection) throws -> EventLoopFuture<KarmaPoint> {
+    print(self)
+    return Future.map(on: conn) { self }
+  }
+}

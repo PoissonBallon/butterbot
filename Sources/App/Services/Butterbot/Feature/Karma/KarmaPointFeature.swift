@@ -1,4 +1,3 @@
-//
 //  KarmaFeature.swift
 //  App
 //
@@ -75,8 +74,8 @@ extension KarmaPointFeature {
       guard let regex = try? Regex(pattern: "(#\\w+)|(<@\\w+>)", groupNames: ["things","user"]) else { return nil }
       let text = event.event.text
       let components = text.components(separatedBy: " ")
-      guard let target = components.first(where: { return (regex.findFirst(in: $0)?.matched != nil) }) else { return nil }
-      self.target = target
+      guard let matched = regex.findFirst(in: text)?.matched else { return nil }
+      self.target = matched
       self.from = event.event.user
       self.teamId = event.teamId
       self.containsAddSuffix = components.first { KarmaFeatureParser.addPointSuffixes.contains($0) } != nil
