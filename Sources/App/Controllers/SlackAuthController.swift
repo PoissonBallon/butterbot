@@ -38,6 +38,8 @@ final class SlackAuthController {
   }
   
   func event(_ req: Request) throws -> EventLoopFuture<HTTPResponse> {
+    let logger = try req.make(Logger.self)
+    logger.info(req.debugDescription)
     return req.content.get(String.self, at: "type").flatMap {
       switch $0 {
       case "url_verification":

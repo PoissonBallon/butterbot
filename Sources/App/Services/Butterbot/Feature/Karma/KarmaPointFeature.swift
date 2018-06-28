@@ -85,6 +85,7 @@ extension KarmaPointFeature {
       if (self.containsAddSuffix || self.containsRemoveSuffix) == false { return nil }
     }
   }
+  
 }
 
 extension KarmaPointFeature {
