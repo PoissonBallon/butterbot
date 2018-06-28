@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 import Random
 import FluentPostgreSQL
+import Regex
 
 struct KarmaPointFeature: ButterbotFeature {
   
@@ -18,7 +19,7 @@ struct KarmaPointFeature: ButterbotFeature {
   fileprivate var parser: KarmaFeatureParser
   
   
- init?(with event: SlackEvent) {
+  init?(with event: SlackEvent) {
     guard let parser = KarmaFeatureParser(with: event) else { return nil }
     self.event = event
     self.parser = parser
@@ -26,14 +27,14 @@ struct KarmaPointFeature: ButterbotFeature {
   
   func execute(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
     return self.executeKarmaPoint(on: container)
-  }  
+  }
 }
 
 extension KarmaPointFeature {
-    
+  
   fileprivate func executeKarmaPoint(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
     return container.withPooledConnection(to: .psql) { (connection) -> EventLoopFuture<KarmaPoint> in
-      return try connection.query(KarmaPoint.self)
+      return KarmaPoint.query(on: connection)
         .filter(\KarmaPoint.target == self.parser.target)
         .filter(\KarmaPoint.teamId == self.parser.teamId)
         .first()
@@ -71,16 +72,16 @@ extension KarmaPointFeature {
     static let removePointSuffixes =  ["--", "-= 1", "- 1", "—"]
     
     init?(with event: SlackEvent) {
+      guard let regex = try? Regex(pattern: "(#\\w+)|(<@\\w+>)", groupNames: ["things","user"]) else { return nil }
       let text = event.event.text
-      guard let target = text.components(separatedBy: " ").first else { return nil }
-      guard target.first == "@" || target.first == "#" || target.first == "<" else { return nil }
-      
+      let components = text.components(separatedBy: " ")
+      guard let target = components.first(where: { return (regex.findFirst(in: $0)?.matched != nil) }) else { return nil }
       self.target = target
       self.from = event.event.user
       self.teamId = event.teamId
-      self.isCheater = (self.target.contains(self.from))
-      self.containsAddSuffix = !KarmaFeatureParser.addPointSuffixes.filter { text.contains($0) }.isEmpty
-      self.containsRemoveSuffix = !KarmaFeatureParser.removePointSuffixes.filter { text.contains($0) }.isEmpty
+      self.containsAddSuffix = components.first { KarmaFeatureParser.addPointSuffixes.contains($0) } != nil
+      self.containsRemoveSuffix = components.first { KarmaFeatureParser.removePointSuffixes.contains($0) } != nil
+      self.isCheater = self.target.contains(self.from)
       if (self.containsAddSuffix || self.containsRemoveSuffix) == false { return nil }
     }
   }
@@ -125,6 +126,11 @@ extension KarmaPointFeature {
       "C'est pas joli joli :rage:",
       "Tu te crois malin ? :rage:",
       "On peut tromper une personne mille fois. On peut tromper mille personne une fois. Mais on ne peut pas tromper mille personnes, mille fois. :innocent:"
+    ]
+    
+    static let unknown = [
+      "Je ne suis pas sur de comprendre :thinking_face: ",
+      "Tu essayes de communiquer ? :thinking_face: ",
     ]
     
   }

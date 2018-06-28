@@ -21,7 +21,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   var databasesConfig = DatabasesConfig()
   var migrationsConfig = MigrationConfig()
   let postgreConfig = try PostgreSQLDatabaseConfig(url: Environment.postgreUri, transport: .unverifiedTLS)
-  let database = PostgreSQLDatabase(config: postgreConfig)
+  let database = PostgreSQLDatabase(config: postgreConfig!)
 
   try services.register(FluentPostgreSQLProvider())
   

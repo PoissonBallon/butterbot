@@ -47,10 +47,10 @@ extension KarmaLeaderboardFeature {
   
   fileprivate func topThings(on container: Container) -> EventLoopFuture<[KarmaPoint]> {
     return container.withPooledConnection(to: .psql) {
-      return try $0.query(KarmaPoint.self)
+      return KarmaPoint.query(on: $0)
         .filter(\KarmaPoint.teamId == self.parser.teamId)
         .filter(\KarmaPoint.target =~ "#")
-        .sort(\KarmaPoint.point, QuerySortDirection.descending)
+        .sort(\KarmaPoint.point, GenericSQLDirection.descending)
         .range(lower: 0, upper: self.parser.leaderboardCount)
         .all()
     }
@@ -58,10 +58,10 @@ extension KarmaLeaderboardFeature {
   
   fileprivate func topUser(on container: Container) -> EventLoopFuture<[KarmaPoint]> {
     return container.withPooledConnection(to: .psql) {
-      return try $0.query(KarmaPoint.self)
+      return KarmaPoint.query(on: $0)
         .filter(\KarmaPoint.teamId == self.parser.teamId)
         .filter(\KarmaPoint.target =~ "<@")
-        .sort(\KarmaPoint.point, QuerySortDirection.descending)
+        .sort(\KarmaPoint.point, GenericSQLDirection.descending)
         .range(lower: 0, upper: self.parser.leaderboardCount)
         .all()
     }
