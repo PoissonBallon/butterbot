@@ -10,9 +10,12 @@ ButterBot
 ------
 
 [![Swift 4.1](https://img.shields.io/badge/Language-Swift%204.1-orange.svg)](https://developer.apple.com/swift/)
-[![Vapor 3](https://img.shields.io/badge/build%20with-vapor3-DF43F6.svg)](https://github.com/vapor/vapor)
+[![Vapor 3](https://img.shields.io/badge/vapor-3-00B0FF.svg?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAyIDIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IHgxPSIwJSIgeTE9IjI0JSIgeDI9IjAlIiB5Mj0iOTYlIiBpZD0iYyI+PHN0b3Agc3RvcC1jb2xvcj0iIzQzQzRGQyIvPjxzdG9wIHN0b3AtY29sb3I9IiNERjQzRjYiIG9mZnNldD0iMTAwJSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxwYXRoIGZpbGw9InVybCgjYykiIGQ9Ik0xLDAgQzEsMCAxLjcsMC45IDEuNywxLjMgQzEuNywxLjcgMS40LDIgMSwyIEMwLjYsMiAwLjMsMS43IDAuMywxLjMgQzAuMywwLjkgMSwwIDEsMCBaIi8+PC9zdmc+
+)](https://github.com/vapor/vapor)
+[![Build Status](https://travis-ci.org/NoRespect/ButterBot.svg?branch=master)](https://travis-ci.org/NoRespect/ButterBot)
 [![HitCount](http://hits.dwyl.com/NoRespect/ButterBot.svg)](http://hits.dwyl.com/NoRespect/ButterBot)
 [![License](https://img.shields.io/badge/License-WTFPL-blue.svg)](http://www.wtfpl.net/)
+
 
 Butterbot is a blazingly dumb bot written in Swift 4.1 with Vapor 3.
 
