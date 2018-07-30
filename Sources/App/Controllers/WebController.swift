@@ -13,7 +13,7 @@ import Leaf
 final class WebController {
   func index(_ req: Request) throws -> Future<View> {
     let leaf = try req.make(LeafRenderer.self)
-    let context = [String: String]()
+    let context:[String:String] = ["slack_client_id":Environment.slackClientID]
     return leaf.render("index", context)
   }
 }
