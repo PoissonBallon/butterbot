@@ -7,6 +7,8 @@
 
 import Foundation
 import Vapor
+import Fluent
+import FluentSQL
 import FluentPostgreSQL
 
 extension Butterbot {
@@ -32,10 +34,11 @@ extension Butterbot {
 extension Butterbot {
   fileprivate func askToken(for event: SlackEvent, on container: Container) -> EventLoopFuture<String> {
     return container.withPooledConnection(to: .psql) { (connection) -> EventLoopFuture<String> in
-      return try connection
-        .query(BotRegistration.self)
+      return BotRegistration
+        .query(on: connection)
         .filter(\BotRegistration.teamId == event.teamId)
-        .first().map { $0?.botAccessToken }.unwrap(or: ButterbotError.notRegister)
+        .first().map { $0?.botAccessToken }
+        .unwrap(or: ButterbotError.notRegister)
     }
   }
   
