@@ -1,26 +1,32 @@
 import FluentPostgreSQL
 import Vapor
 import Leaf
+import GoogleAnalyticsProvider
 
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
   
   //////////////////////////////////
   /////// ROUTER
   //////////////////////////////////
-  
   let router = EngineRouter.default()
   try routes(router)
   services.register(router, as: Router.self)
   
+  
+  //////////////////////////////////
+  /////// Analytics
+  //////////////////////////////////
+  let config = GoogleAnalyticsConfig(trackingID: Environment.GoogleAnalyticsTrackingID)
+  services.register(config)
+  try services.register(GoogleAnalyticsProvider())
+
+  
   //////////////////////////////////
   /////// DATABASE
   //////////////////////////////////
-  
-  
-  /// Register providers first
   var databasesConfig = DatabasesConfig()
   var migrationsConfig = MigrationConfig()
-  let postgreConfig = try PostgreSQLDatabaseConfig(url: Environment.postgreUri, transport: .unverifiedTLS)
+  let postgreConfig = PostgreSQLDatabaseConfig(url: Environment.postgreUri, transport: .unverifiedTLS)
   let database = PostgreSQLDatabase(config: postgreConfig!)
 
   try services.register(FluentPostgreSQLProvider())
@@ -36,16 +42,14 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
   //////////////////////////////////
   /////// MIDDLEWARE
-  //////////////////////////////////
-  
+  /////////////////////////////////
   var middlewares = MiddlewareConfig()
   middlewares.use(ErrorMiddleware.self)
   services.register(middlewares)
   
   //////////////////////////////////
   /////// LEAF
-  //////////////////////////////////
-  
+  /////////////////////////////////
   services.register { container -> LeafRenderer in
     let directoryConfig = try container.make(DirectoryConfig.self)
     let viewsDirectory = directoryConfig.workDir + "Resources/Views"
@@ -56,6 +60,5 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
   //////////////////////////////////
   /////// Butterbot
   //////////////////////////////////
-
   services.register(Butterbot.self)
 }

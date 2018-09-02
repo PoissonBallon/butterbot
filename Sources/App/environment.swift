@@ -21,6 +21,10 @@ extension Environment {
   static var postgreUri: String {
     return valueForKey(key: "DATABASE_URL")
   }
+  
+  static var GoogleAnalyticsTrackingID: String {
+    return valueForKey(key: "GA_TRACKING_ID")
+  }
 }
 
 extension Environment {
