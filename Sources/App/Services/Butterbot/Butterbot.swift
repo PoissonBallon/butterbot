@@ -18,7 +18,7 @@ struct Butterbot: ServiceType {
       .sorted { $0.priority > $1.priority }.first
     let gac = try? container.make(GoogleAnalyticsClient.self)
     
-    gac?.send(hit: .event(category: "SlackEvent", action: event.type, label: "text", value: event.event.text, userID: event.event.user))
+    gac?.send(hit: .event(category: "SlackEvent", action: event.type, label: "message", value: nil, userID: event.event.user))
     guard let feature = chooseFeature else {
       return container.eventLoop.newSucceededFuture(result: HTTPResponse(status: .noContent))
     }
