@@ -67,19 +67,19 @@ extension KarmaPointFeature {
     var containsRemoveSuffix: Bool
     var teamId: String
     var isCheater: Bool
-    static let addPointSuffixes =     ["++", "+= 1", "+ 1", ":+1:"]
-    static let removePointSuffixes =  ["--", "-= 1", "- 1", "—"]
+    static let addPointSuffixes =     ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+ 1"]
+    static let removePointSuffixes =  ["--", ":thumbsdown:", "- 1", "—"]
     
     init?(with event: SlackEvent) {
       guard let regex = try? Regex(pattern: "(#\\w+)|(<@\\w+>)", groupNames: ["things","user"]) else { return nil }
       let text = event.event.text
-      let components = text.components(separatedBy: " ")
+      let lowerCased = text.lowercased()
       guard let matched = regex.findFirst(in: text)?.matched else { return nil }
       self.target = matched
       self.from = event.event.user
       self.teamId = event.teamId
-      self.containsAddSuffix = components.first { KarmaFeatureParser.addPointSuffixes.contains($0) } != nil
-      self.containsRemoveSuffix = components.first { KarmaFeatureParser.removePointSuffixes.contains($0) } != nil
+      self.containsAddSuffix = KarmaFeatureParser.addPointSuffixes.compactMap { lowerCased.range(of: $0) }.count > 0
+      self.containsRemoveSuffix = KarmaFeatureParser.removePointSuffixes.compactMap { lowerCased.range(of: $0) }.count > 0
       self.isCheater = self.target.contains(self.from)
       if (self.containsAddSuffix || self.containsRemoveSuffix) == false { return nil }
     }

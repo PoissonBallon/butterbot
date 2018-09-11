@@ -23,8 +23,8 @@ struct AskMeFeature: ButterbotFeature {
   }
   
   func execute(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
-    let answer = [L10n.yes, L10n.not].flatMap { $0 }.random ?? ""
-    let message = ButterbotMessage(text: answer, attachments: nil)
+    let answer: String? = ([true, false].random ?? false) ? L10n.yes.random : L10n.not.random
+    let message = ButterbotMessage(text: answer ?? "", attachments: nil)
     return container.eventLoop.newSucceededFuture(result: message)
   }
 }
