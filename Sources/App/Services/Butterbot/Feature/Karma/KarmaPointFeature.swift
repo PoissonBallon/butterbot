@@ -39,7 +39,7 @@ extension KarmaPointFeature {
         .first()
         .flatMap {
           var karmaPoint = $0 ?? KarmaPoint(target: self.parser.target, point: 0, teamId: self.parser.teamId)
-          guard self.parser.isBanish else { return karmaPoint.save(on: connection) }
+          guard self.parser.isBanish == false else { return karmaPoint.save(on: connection) }
           if self.parser.isCheater { karmaPoint.point = (karmaPoint.point - 2) }
           else if self.parser.containsAddSuffix { karmaPoint.point = (karmaPoint.point + 1)}
           else if self.parser.containsRemoveSuffix { karmaPoint.point = (karmaPoint.point - 1)}
@@ -47,7 +47,7 @@ extension KarmaPointFeature {
       }
       }.map { (karmaPoint) -> ButterbotMessage? in
         var sentence: String?
-        guard self.parser.isBanish else { return ButterbotMessage(text: L10n.banish.random ?? "", attachments: nil) }
+        guard self.parser.isBanish == false else { return ButterbotMessage(text: L10n.banish.random ?? "", attachments: nil) }
         if self.parser.isCheater { sentence = L10n.cheaters.random }
         else if self.parser.containsAddSuffix { sentence = L10n.congrats.random }
         else if self.parser.containsRemoveSuffix { sentence = L10n.reproves.random }
@@ -70,7 +70,7 @@ extension KarmaPointFeature {
     var teamId: String
     var isCheater: Bool
     var isBanish: Bool
-    static let banishPeople = ["<@U0JAX7128>"]
+    static let banishPeople = ["U0JAX7128"]
     static let addPointSuffixes =     ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+ 1"]
     static let removePointSuffixes =  ["--", ":thumbsdown:", "- 1", "—"]
     
@@ -84,7 +84,7 @@ extension KarmaPointFeature {
       self.teamId = event.teamId
       self.containsAddSuffix = KarmaFeatureParser.addPointSuffixes.compactMap { lowerCased.range(of: $0) }.count > 0
       self.containsRemoveSuffix = KarmaFeatureParser.removePointSuffixes.compactMap { lowerCased.range(of: $0) }.count > 0
-      self.isCheater = self.target.contains(self.from)
+      self.isCheater = KarmaFeatureParser.banishPeople.contains(where: { $0 == event.event.user})
       self.isBanish = KarmaFeatureParser.banishPeople.contains(self.from)
       if (self.containsAddSuffix || self.containsRemoveSuffix) == false { return nil }
     }
