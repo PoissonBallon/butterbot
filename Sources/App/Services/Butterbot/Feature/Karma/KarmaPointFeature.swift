@@ -134,8 +134,8 @@ extension KarmaPointFeature {
     ]
     
     static let banish = [
-      "Toi tu es puni :smiling_imp:",
-      "Toi tu ne joue plus :middle_finger:"
+      "Toi, tu es puni !!!! :smiling_imp:",
+      "Toi, tu ne joue plus !!!!! :middle_finger:"
     ]
     
     static let unknown = [
