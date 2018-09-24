@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
   name: "ButterBot",
   dependencies: [
-    .package(url: "https://github.com/vapor/vapor.git",             .upToNextMinor(from: "3.0.8")),
+    .package(url: "https://github.com/vapor/vapor.git",             .upToNextMinor(from: "3.1.0")),
     .package(url: "https://github.com/vapor/fluent-postgresql.git", .upToNextMinor(from: "1.0.0")),
     .package(url: "https://github.com/vapor/leaf.git",              .upToNextMinor(from: "3.0.1")),
     .package(url: "https://github.com/crossroadlabs/Regex",         .upToNextMinor(from: "1.1.0")),

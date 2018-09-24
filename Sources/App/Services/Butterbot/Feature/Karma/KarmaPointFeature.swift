@@ -11,26 +11,26 @@ import FluentPostgreSQL
 import Regex
 
 struct KarmaPointFeature: ButterbotFeature {
-  
+
   public let priority: Int = 750
   public var event: SlackEvent
   public var isValid: Bool = true
   fileprivate var parser: KarmaFeatureParser
-  
-  
+
+
   init?(with event: SlackEvent) {
     guard let parser = KarmaFeatureParser(with: event) else { return nil }
     self.event = event
     self.parser = parser
   }
-  
+
   func execute(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
     return self.executeKarmaPoint(on: container)
   }
 }
 
 extension KarmaPointFeature {
-  
+
   fileprivate func executeKarmaPoint(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
     return container.withPooledConnection(to: .psql) { (connection) -> EventLoopFuture<KarmaPoint> in
       return KarmaPoint.query(on: connection)
@@ -56,12 +56,12 @@ extension KarmaPointFeature {
         return message
     }
   }
-  
-  
+
+
 }
 
 extension KarmaPointFeature {
-  
+
   struct KarmaFeatureParser {
     var target: String
     var from: String
@@ -70,10 +70,10 @@ extension KarmaPointFeature {
     var teamId: String
     var isCheater: Bool
     var isBanish: Bool
-    static let banishPeople = ["U0JAX7128"]
+    static let banishPeople: [String] = []
     static let addPointSuffixes =     ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+ 1"]
-    static let removePointSuffixes =  ["--", ":thumbsdown:", "- 1", "—"]
-    
+    static let removePointSuffixes =  ["--", ":thumbsdown:", "- 1", "—", ":middle_finger:"]
+
     init?(with event: SlackEvent) {
       guard let regex = try? Regex(pattern: "(#\\w+)|(<@\\w+>)", groupNames: ["things","user"]) else { return nil }
       let text = event.event.text
@@ -89,7 +89,7 @@ extension KarmaPointFeature {
       if (self.containsAddSuffix || self.containsRemoveSuffix) == false { return nil }
     }
   }
-  
+
 }
 
 extension KarmaPointFeature {
@@ -112,7 +112,7 @@ extension KarmaPointFeature {
       "And up you go ! :top:",
       "Yeah ! :partyparrot:"
     ]
-    
+
     static let reproves = [
       "Privé de beurre !!",
       "Sorry about that :(",
@@ -126,23 +126,23 @@ extension KarmaPointFeature {
       "Ok... :neutral_face:",
       "Oh god why... :weary:"
     ]
-    
+
     static let cheaters = [
       "C'est pas joli joli :rage:",
       "Tu te crois malin ? :rage:",
       "On peut tromper une personne mille fois. On peut tromper mille personne une fois. Mais on ne peut pas tromper mille personnes, mille fois. :innocent:"
     ]
-    
+
     static let banish = [
       "Toi, tu es puni !!!! :smiling_imp:",
       "Toi, tu ne joue plus !!!!! :middle_finger:"
     ]
-    
+
     static let unknown = [
       "Je ne suis pas sur de comprendre :thinking_face: ",
       "Tu essayes de communiquer ? :thinking_face: ",
     ]
-    
+
   }
-  
+
 }
