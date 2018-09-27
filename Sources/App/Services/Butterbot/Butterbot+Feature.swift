@@ -10,9 +10,7 @@ import Service
 import Vapor
 
 protocol ButterbotFeature {
-  var priority: Int { get }
-  var event: SlackEvent { get set}
-  var isValid: Bool { get }
+  var event: SlackEvent { get }
   func execute(on container: Container) -> EventLoopFuture<ButterbotMessage?>
 }
 
