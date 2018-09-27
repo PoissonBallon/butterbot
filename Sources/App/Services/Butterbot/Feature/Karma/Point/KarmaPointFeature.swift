@@ -22,53 +22,50 @@ struct KarmaPointFeature: ButterbotFeature {
     self.parser = KarmaFeatureParser(with: event)
   }
   
-  func execute(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
-    return container.eventLoop.newFailedFuture(error: ButterbotError.notRegister)
-    return self.executeKarmaPoint(on: container)
+  func execute(on container: Container) -> EventLoopFuture<[ButterbotMessage]> {
+    return self.executeKarmaPoint(on:container)
   }
 }
 
 extension KarmaPointFeature {
   
-  fileprivate func executeKarmaPoint(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
+  fileprivate func executeKarmaPoint(on container: Container) -> EventLoopFuture<[ButterbotMessage]> {
     let actions = self.parser.parse()
-    self.requestKarma(from: actions, with: container)
-    
+    let executeAction = actions.map { self.updateDatabaseKarma(from: $0, with: container) }.flatten(on: container)
+    let message = executeAction.map { $0.map { self.generateMessage(with: $0.1, and: $0.0)} }
+    return message
   }
   
-  fileprivate func updateOrCreateKarmaPoint(updates:[KarmaPoint], actions: [KarmaFeatureParser.Action]) -> [KarmaPoint] {
-    return actions.map { (action) in {
-      let karmaPoint = updates.first(where: {$0.target == action.target}) ?? KarmaPoint(target: action.target, point: 0, teamId: self.parser.teamID)
-      karmaPoint.point = karmaPoint.point + action.point
-      return karmaPoint
-    }
-  }
   
-  fileprivate func updateDatabaseKarma(from actions : [KarmaFeatureParser.Action], with container: Container) -> EventLoopFuture<[KarmaPoint]>  {
-    return container.withPooledConnection(to: .psql) { (connection) -> EventLoopFuture<[KarmaPoint]> in
+  
+  fileprivate func updateDatabaseKarma(from action : KarmaFeatureParser.Action, with container: Container) -> EventLoopFuture<(KarmaPoint, KarmaFeatureParser.Action)>  {
+    return container.withPooledConnection(to: .psql) { (connection) -> EventLoopFuture<(KarmaPoint, KarmaFeatureParser.Action)> in
       return KarmaPoint
         .query(on: connection)
         .filter(\KarmaPoint.teamId == self.parser.teamID)
-        .filter(\KarmaPoint.target ~~ actions.map({ $0.target }))
-        .all()
-        .map { self.updateOrCreateKarmaPoint(updates: $0, actions: actions) }
-        .flatMap { conne
+        .filter(\KarmaPoint.target == action.target)
+        .first()
+        .map { $0 ?? KarmaPoint(target: action.target, point: 0, teamId: self.parser.teamID) }
+        .flatMap { $0.save(on: connection) }
+        .and(result: action)
     }
   }
   
+  fileprivate func updateOrCreateKarmaPoint(updates:[KarmaPoint], actions: [KarmaFeatureParser.Action]) -> [(KarmaPoint, KarmaFeatureParser.Action)] {
+    return actions.map { (action) in
+      let newOrUpdate = updates.first(where: {$0.target == action.target}) ?? KarmaPoint(target: action.target, point: 0, teamId: self.parser.teamID)
+      let point = action.point
+      let karma = KarmaPoint(target: newOrUpdate.target, point: newOrUpdate.point + point, teamId: self.parser.teamID)
+      return (karma, action)
+    }
+  }
   
-  
-  fileprivate func generateMessage(with action: KarmaFeatureParser.Action, point: Int, and result: KarmaPoint) -> EventLoopFuture<ButtebotMessage> {
-    var sentence: String?
-    guard self.parser.isBanish == false else { return ButterbotMessage(text: L10n.banish.random ?? "", attachments: nil) }
-    if self.parser.isCheater { sentence = L10n.cheaters.random }
-    else if self.parser.containsAddSuffix { sentence = L10n.congrats.random }
-    else if self.parser.containsRemoveSuffix { sentence = L10n.reproves.random }
-    let text = "\(sentence ?? "") [\(karmaPoint.target) : \(karmaPoint.point) points]"
+  fileprivate func generateMessage(with action: KarmaFeatureParser.Action, and karma: KarmaPoint) -> ButterbotMessage {
+    let sign = (action.point > 0) ? "+" : ""
+    let text = "\(action.sentence) [\(karma.target) : \(karma.point) points] (\(sign)\(action.point))"
     let message = ButterbotMessage(text: text, attachments: nil)
     return message
   }
 }
-}
 
-}
+

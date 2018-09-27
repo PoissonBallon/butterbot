@@ -39,7 +39,7 @@ class KarmaFeatureParser {
   }
   
   fileprivate func findAction(for target: String) -> Action? {
-    guard let index = self.textToken.firstIndex(where: {$0 == target}) else { return nil }
+    guard let index = self.textToken.index(where: {$0 == target}) else { return nil }
     if index < (self.textToken.count - 2) {
       if let action = self.createAction(for: target, and: self.textToken[index + 1]) {
         self.textToken.remove(at: index + 1)
@@ -56,43 +56,46 @@ class KarmaFeatureParser {
   }
   
   fileprivate func checkCheater(for action: Action) -> Action {
-    switch action {
-    case .addOne(let target):     return target.contains(self.fromID) ? action : .cheater(target: target)
-    case .addRandom(let target):  return target.contains(self.fromID) ? action : .cheater(target: target)
+    switch action.type {
+    case .addOne, .addRandom:     return action.target.contains(self.fromID) ? action : Action(target: action.target, type: .cheater)
     default:                      return action
     }
   }
   
   func createAction(for target: String, and token: String) -> Action? {
     let tokenLower = token.lowercased()
-    if KarmaFeatureToken.addPointToken.contains(tokenLower) { return Action.addOne(target: target) }
-    if KarmaFeatureToken.removePointToken.contains(tokenLower) { return Action.removeOne(target: target) }
-    if KarmaFeatureToken.randomRemovePointToken.contains(tokenLower) { return Action.removeRandom(target: target) }
-    if KarmaFeatureToken.randomAddPointToken.contains(tokenLower) { return Action.addRandom(target: target) }
+    if KarmaFeatureToken.addPointToken.contains(tokenLower) { return Action(target: target, type: .addOne) }
+    if KarmaFeatureToken.removePointToken.contains(tokenLower) { return Action(target: target, type: .removeOne) }
+    if KarmaFeatureToken.randomRemovePointToken.contains(tokenLower) { return Action(target: target, type: .addRandom) }
+    if KarmaFeatureToken.randomAddPointToken.contains(tokenLower) { return Action(target: target, type: .removeRandom) }
     return nil
   }
 }
 
 extension KarmaFeatureParser {
   
-  enum Action {
-    case addOne(target: String)
-    case removeOne(target: String)
-    case addRandom(target: String)
-    case removeRandom(target: String)
-    case cheater(target: String)
+  struct Action {
+    let type: ActionType
+    let target: String
+    let point: Int
+    let sentence: String
     
-    var target: String {
-      switch self {
-      case .addOne(let target):       return target
-      case .addRandom(let target):    return target
-      case .removeOne(let target):    return target
-      case .removeRandom(let target): return target
-      case .cheater(let target):      return target
-      }
+    init(target: String, type: ActionType) {
+      self.type = type
+      self.target = target
+      self.point = type.point
+      self.sentence = type.sentence
     }
+  }
+  
+  enum ActionType {
+    case addOne
+    case addRandom
+    case removeOne
+    case removeRandom
+    case cheater
     
-    var point: Int {
+    fileprivate var point: Int {
       switch self {
       case .addOne:       return 1
       case .addRandom:    return (try? (OSRandom().generate(Int.self) % 5)) ?? 1
@@ -101,8 +104,19 @@ extension KarmaFeatureParser {
       case .cheater:      return -2
       }
     }
+    
+    fileprivate var sentence: String {
+      switch self {
+      case .addOne:       return KarmaPointSentence.congrats.random ?? ""
+      case .addRandom:    return KarmaPointSentence.congrats.random ?? ""
+      case .removeOne:    return KarmaPointSentence.reproves.random ?? ""
+      case .removeRandom: return KarmaPointSentence.reproves.random ?? ""
+      case .cheater:      return KarmaPointSentence.cheaters.random ?? ""
+      }
+    }
   }
 }
+
 
 struct KarmaFeatureToken {
   static let addPointToken    =            ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+ 1"]
