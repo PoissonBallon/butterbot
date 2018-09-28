@@ -22,10 +22,10 @@ struct AskMeFeature: ButterbotFeature {
     self.event = event
   }
   
-  func execute(on container: Container) -> EventLoopFuture<ButterbotMessage?> {
+  func execute(on container: Container) -> EventLoopFuture<[ButterbotMessage]> {
     let answer: String? = ([true, false].random ?? false) ? L10n.yes.random : L10n.not.random
     let message = ButterbotMessage(text: answer ?? "", attachments: nil)
-    return container.eventLoop.newSucceededFuture(result: message)
+    return container.eventLoop.newSucceededFuture(result: [message])
   }
 }
 

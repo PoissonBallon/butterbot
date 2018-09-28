@@ -17,17 +17,25 @@ extension Butterbot {
 }
 
 extension Butterbot {
-  func sendMessage(message: ButterbotMessage?, event: SlackEvent, on container: Container) throws -> EventLoopFuture<HTTPResponse> {
-    guard let butterMessage = message else { return container.eventLoop.newSucceededFuture(result: HTTPResponse(status: .ok)) }
-    let slackMessage = self.createMessage(message: butterMessage, event: event)
-    return self.askToken(for: event, on: container).flatMap { (token) -> EventLoopFuture<HTTPResponse> in
-      try container.client().post(Butterbot.slackChatPostMessageURL) {
-        try $0.content.encode(slackMessage)
+  func sendMessage(messages: [ButterbotMessage], event: SlackEvent, on container: Container) -> EventLoopFuture<[HTTPResponse]> {
+    let slackMessages = messages.map { self.createMessage(message: $0, event: event) }
+    return self.askToken(for: event, on: container).flatMap { (token) -> EventLoopFuture<[HTTPResponse]> in
+      return slackMessages.map { self.sendSlackMessage(message: $0, token: token, container: container) }.flatten(on: container)
+    }
+  }
+  
+  fileprivate func sendSlackMessage(message: SlackConversMessage, token: String, container: Container) -> EventLoopFuture<HTTPResponse> {
+    do {
+      return try container.client().post(Butterbot.slackChatPostMessageURL) {
+        try $0.content.encode(message)
         $0.http.headers.add(name: .authorization, value: "Bearer \(token)")
         $0.http.headers.add(name: .keepAlive, value: "timeout=2, max=1000")
         }.map { $0.http }
+    } catch {
+      return container.future(error: error)
     }
   }
+  
 }
 
 

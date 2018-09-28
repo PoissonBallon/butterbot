@@ -26,9 +26,7 @@ class KarmaFeatureParser {
   }
   
   func parse() -> [Action] {
-    self.textToken = self.event.event.text.split(separator: " ").map { String($0) }
-    let actions = self.findTargets().compactMap { self.findAction(for: $0) }.map { self.checkCheater(for: $0) }
-    return actions
+    return self.findTargets().compactMap { self.findAction(for: $0) }.map { self.checkCheater(for: $0) }
   }
   
   fileprivate func findTargets() -> [String] {
@@ -64,10 +62,10 @@ class KarmaFeatureParser {
   
   func createAction(for target: String, and token: String) -> Action? {
     let tokenLower = token.lowercased()
-    if KarmaFeatureToken.addPointToken.contains(tokenLower) { return Action(target: target, type: .addOne) }
-    if KarmaFeatureToken.removePointToken.contains(tokenLower) { return Action(target: target, type: .removeOne) }
-    if KarmaFeatureToken.randomRemovePointToken.contains(tokenLower) { return Action(target: target, type: .addRandom) }
-    if KarmaFeatureToken.randomAddPointToken.contains(tokenLower) { return Action(target: target, type: .removeRandom) }
+    if KarmaPointFeatureToken.addPointToken.contains(tokenLower) { return Action(target: target, type: .addOne) }
+    if KarmaPointFeatureToken.removePointToken.contains(tokenLower) { return Action(target: target, type: .removeOne) }
+    if KarmaPointFeatureToken.randomRemovePointToken.contains(tokenLower) { return Action(target: target, type: .addRandom) }
+    if KarmaPointFeatureToken.randomAddPointToken.contains(tokenLower) { return Action(target: target, type: .removeRandom) }
     return nil
   }
 }
@@ -118,7 +116,7 @@ extension KarmaFeatureParser {
 }
 
 
-struct KarmaFeatureToken {
+struct KarmaPointFeatureToken {
   static let addPointToken    =            ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+ 1"]
   static let removePointToken =            ["--", ":thumbsdown:", "- 1", "—", ":middle_finger:"]
   static let randomAddPointToken =         ["+?"]
