@@ -46,23 +46,17 @@ extension KarmaPointFeature {
         .filter(\KarmaPoint.target == action.target)
         .first()
         .map { $0 ?? KarmaPoint(target: action.target, point: 0, teamId: self.parser.teamID) }
+        .map { KarmaPoint(id: $0.id, target: $0.target, point: $0.point + action.point, teamId: $0.teamId) }
         .flatMap { $0.save(on: connection) }
         .and(result: action)
     }
   }
   
-  fileprivate func updateOrCreateKarmaPoint(updates:[KarmaPoint], actions: [KarmaFeatureParser.Action]) -> [(KarmaPoint, KarmaFeatureParser.Action)] {
-    return actions.map { (action) in
-      let newOrUpdate = updates.first(where: {$0.target == action.target}) ?? KarmaPoint(target: action.target, point: 0, teamId: self.parser.teamID)
-      let point = action.point
-      let karma = KarmaPoint(target: newOrUpdate.target, point: newOrUpdate.point + point, teamId: self.parser.teamID)
-      return (karma, action)
-    }
-  }
   
   fileprivate func generateMessage(with action: KarmaFeatureParser.Action, and karma: KarmaPoint) -> ButterbotMessage {
-    let sign = (action.point > 0) ? "+" : ""
-    let text = "\(action.sentence) [\(karma.target) : \(karma.point) points] (\(sign)\(action.point))"
+    let sign = (action.point > 0) ? "+" : "-"
+    let pointAbs = abs(action.point)
+    let text = "\(action.sentence) (\(sign)\(pointAbs)pts) : [\(karma.target) : \(karma.point) points]"
     let message = ButterbotMessage(text: text, attachments: nil)
     return message
   }

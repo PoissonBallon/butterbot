@@ -21,6 +21,13 @@ struct KarmaPoint: Content, PostgreSQLModel {
     self.point = point
     self.teamId = teamId
   }
+  
+  init(id: Int?, target: String, point: Int, teamId: String) {
+    self.id = id
+    self.target = target
+    self.point = point
+    self.teamId = teamId
+  }
 
 }
 

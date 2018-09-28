@@ -26,6 +26,7 @@ class KarmaFeatureParser {
   }
   
   func parse() -> [Action] {
+    self.textToken = self.text.split(separator: " ").map { String($0) }
     return self.findTargets().compactMap { self.findAction(for: $0) }.map { self.checkCheater(for: $0) }
   }
   
@@ -38,7 +39,7 @@ class KarmaFeatureParser {
   
   fileprivate func findAction(for target: String) -> Action? {
     guard let index = self.textToken.index(where: {$0 == target}) else { return nil }
-    if index < (self.textToken.count - 2) {
+    if index < (self.textToken.count - 1) {
       if let action = self.createAction(for: target, and: self.textToken[index + 1]) {
         self.textToken.remove(at: index + 1)
         return action
@@ -55,7 +56,7 @@ class KarmaFeatureParser {
   
   fileprivate func checkCheater(for action: Action) -> Action {
     switch action.type {
-    case .addOne, .addRandom:     return action.target.contains(self.fromID) ? action : Action(target: action.target, type: .cheater)
+    case .addOne, .addRandom:     return action.target.contains(self.fromID) ? Action(target: action.target, type: .cheater) : action 
     default:                      return action
     }
   }
@@ -64,8 +65,8 @@ class KarmaFeatureParser {
     let tokenLower = token.lowercased()
     if KarmaPointFeatureToken.addPointToken.contains(tokenLower) { return Action(target: target, type: .addOne) }
     if KarmaPointFeatureToken.removePointToken.contains(tokenLower) { return Action(target: target, type: .removeOne) }
-    if KarmaPointFeatureToken.randomRemovePointToken.contains(tokenLower) { return Action(target: target, type: .addRandom) }
-    if KarmaPointFeatureToken.randomAddPointToken.contains(tokenLower) { return Action(target: target, type: .removeRandom) }
+    if KarmaPointFeatureToken.randomAddPointToken.contains(tokenLower) { return Action(target: target, type: .addRandom) }
+    if KarmaPointFeatureToken.randomRemovePointToken.contains(tokenLower) { return Action(target: target, type: .removeRandom) }
     return nil
   }
 }
@@ -96,9 +97,9 @@ extension KarmaFeatureParser {
     fileprivate var point: Int {
       switch self {
       case .addOne:       return 1
-      case .addRandom:    return (try? (OSRandom().generate(Int.self) % 5)) ?? 1
+      case .addRandom:    return Array(1...5).random ?? 1
       case .removeOne:    return -1
-      case .removeRandom: return ((try? (OSRandom().generate(Int.self) % 5)) ?? 1) * -1
+      case .removeRandom: return Array((-5)...(-1)).random ?? -1
       case .cheater:      return -2
       }
     }
