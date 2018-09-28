@@ -21,7 +21,7 @@ struct KarmaBoardParser {
   }
   
   func parse() -> [Action] {
-    guard self.textToken.count > 1, self.textToken.count < 3 else { return [] }
+    guard self.textToken.count > 1, self.textToken.count < 4 else { return [] }
     guard self.textToken[0] == "<@\(self.authedBot)>" else { return [] }
     
     let actionVerb = self.textToken[1]
