@@ -11,7 +11,6 @@ import Random
 import FluentPostgreSQL
 
 struct AskMeFeature: ButterbotFeature {
-  
   public let priority: Int = 750
   public var event: SlackEvent
   public var isValid: Bool = true
@@ -26,6 +25,14 @@ struct AskMeFeature: ButterbotFeature {
     let answer: String? = ([true, false].random ?? false) ? L10n.yes.random : L10n.not.random
     let message = ButterbotMessage(text: answer ?? "", attachments: nil)
     return container.eventLoop.newSucceededFuture(result: [message])
+  }
+  
+  func help(for botID: String) -> ButterbotAttachment? {
+    let title = "Leaderboard Help :"
+    let leaderField = ButterbotAttachmentField(title: "Show Leaderboard", value: "<@\(botID)> leaderboard", short: false)
+    let lastField   = ButterbotAttachmentField(title: "Show Lastboard", value: "<@\(botID)> lastboard", short: false)
+    
+    return ButterbotAttachment(title: title, text: nil, fields: [leaderField, lastField])
   }
 }
 

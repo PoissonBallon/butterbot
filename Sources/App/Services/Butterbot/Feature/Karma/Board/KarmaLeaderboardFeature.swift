@@ -13,7 +13,6 @@ import FluentSQL
 import FluentPostgreSQL
 
 struct KarmaBoardFeature: ButterbotFeature {
-  
   var event: SlackEvent
   var parser: KarmaBoardParser
   
@@ -26,6 +25,15 @@ struct KarmaBoardFeature: ButterbotFeature {
     guard let action = self.parser.parse().first else { return container.eventLoop.newSucceededFuture(result: []) }
     return self.executeKarmaLeaderboard(with: action, on: container).map { [$0] }
   }
+  
+  func help(for botID: String) -> ButterbotAttachment? {
+    let title = "Leaderboard Help :"
+    let leaderField = ButterbotAttachmentField(title: "Show Leaderboard", value: "<@\(botID)> leaderboard", short: false)
+    let lastField   = ButterbotAttachmentField(title: "Show Lastboard", value: "<@\(botID)> lastboard", short: false)
+    
+    return ButterbotAttachment(title: title, text: nil, fields: [leaderField, lastField])
+  }
+  
 }
 
 extension KarmaBoardFeature {

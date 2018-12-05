@@ -18,8 +18,9 @@ struct Butterbot: ServiceType {
 
 extension Butterbot {
   func action(to event: SlackEvent, on container: Container) -> EventLoopFuture<HTTPResponse> {
-    return self.makeFeatures(to: event)
-      .map { $0.execute(on: container) }.flatten(on: container)
+    return Butterbot.makeFeatures(to: event)
+      .map { $0.execute(on: container) }
+      .flatten(on: container)
       .map { $0.flatMap { $0 } }
       .map { self.sendMessage(messages: $0, event: event, on: container) }
       .map { _ in HTTPResponse(status: .accepted) }
@@ -28,11 +29,12 @@ extension Butterbot {
 
 
 extension Butterbot {
-  func makeFeatures(to event: SlackEvent) -> [ButterbotFeature] {
+  static func makeFeatures(to event: SlackEvent) -> [ButterbotFeature] {
     let feature: [ButterbotFeature?] = [
       KarmaPointFeature(with: event),
       KarmaBoardFeature(with: event),
-      AskMeFeature(with: event)
+      AskMeFeature(with: event),
+      HelpFeature(with: event)
     ]
     return feature.compactMap { $0 }
   }

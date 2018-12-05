@@ -11,6 +11,7 @@ import Vapor
 
 protocol ButterbotFeature {
   var event: SlackEvent { get }
+  func help(for botID:String) -> ButterbotAttachment?
   func execute(on container: Container) -> EventLoopFuture<[ButterbotMessage]>
 }
 
