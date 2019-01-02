@@ -19,7 +19,7 @@ struct KarmaPointSentence {
     "Congratulation ! :thumbsup:",
     "To infinity and beyond ! :rocket:",
     "And up you go ! :top:",
-    "Yeah ! :partyparrot:"
+    "Yeah !"
   ]
   
   static let reproves = [

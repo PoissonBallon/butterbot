@@ -16,23 +16,21 @@ struct AskMeFeature: ButterbotFeature {
   public var isValid: Bool = true
   
   
-  init?(with event: SlackEvent) {
-    guard (AskMeParser(with: event) != nil) else { return nil }
+  init(with event: SlackEvent) {
     self.event = event
   }
   
   func execute(on container: Container) -> EventLoopFuture<[ButterbotMessage]> {
+    guard AskMeParser(with: self.event) != nil else { return container.eventLoop.newSucceededFuture(result: []) }
     let answer: String? = ([true, false].random ?? false) ? L10n.yes.random : L10n.not.random
     let message = ButterbotMessage(text: answer ?? "", attachments: nil)
     return container.eventLoop.newSucceededFuture(result: [message])
   }
   
   func help(for botID: String) -> ButterbotAttachment? {
-    let title = "Leaderboard Help :"
-    let leaderField = ButterbotAttachmentField(title: "Show Leaderboard", value: "<@\(botID)> leaderboard", short: false)
-    let lastField   = ButterbotAttachmentField(title: "Show Lastboard", value: "<@\(botID)> lastboard", short: false)
-    
-    return ButterbotAttachment(title: title, text: nil, fields: [leaderField, lastField])
+    let title = ":question: AskMe Help"
+    let field = ButterbotAttachmentField(title: "Ask butterbot :", value: "<@\(botID)> `Est-ce qu`'il fait beau aujourd'hui ?", short: false)
+    return ButterbotAttachment(title: title, text: nil, fields: [field])
   }
 }
 

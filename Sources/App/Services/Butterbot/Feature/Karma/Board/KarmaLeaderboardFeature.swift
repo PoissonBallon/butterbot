@@ -27,13 +27,12 @@ struct KarmaBoardFeature: ButterbotFeature {
   }
   
   func help(for botID: String) -> ButterbotAttachment? {
-    let title = "Leaderboard Help :"
-    let leaderField = ButterbotAttachmentField(title: "Show Leaderboard", value: "<@\(botID)> leaderboard", short: false)
-    let lastField   = ButterbotAttachmentField(title: "Show Lastboard", value: "<@\(botID)> lastboard", short: false)
+    let title = ":top: Leaderboard instructions"
+    let leaderField = ButterbotAttachmentField(title: "Show Leaderboard :", value: "<@\(botID)> `leaderboard`", short: false)
+    let lastField   = ButterbotAttachmentField(title: "Show Lastboard :", value: "<@\(botID)> `lastboard`", short: false)
     
     return ButterbotAttachment(title: title, text: nil, fields: [leaderField, lastField])
   }
-  
 }
 
 extension KarmaBoardFeature {

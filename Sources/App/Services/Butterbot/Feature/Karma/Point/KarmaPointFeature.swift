@@ -27,11 +27,19 @@ struct KarmaPointFeature: ButterbotFeature {
   }
   
   func help(for botID: String) -> ButterbotAttachment? {
-    let title = "Leaderboard Help :"
-    let leaderField = ButterbotAttachmentField(title: "Show Leaderboard", value: "<@\(botID)> leaderboard", short: false)
-    let lastField   = ButterbotAttachmentField(title: "Show Lastboard", value: "<@\(botID)> lastboard", short: false)
+    let title = ":first_place_medal: Karma instructions"
     
-    return ButterbotAttachment(title: title, text: nil, fields: [leaderField, lastField])
+    let addToken = KarmaPointFeatureToken.addPointToken.map { "`\($0)`" }.joined(separator: " || ")
+    let removeToken = KarmaPointFeatureToken.removePointToken.map { "`\($0)`" }.joined(separator: " || ")
+    let addRandomToken = KarmaPointFeatureToken.randomAddPointToken.map { "`\($0)`" }.joined(separator: " || ")
+    let removeRandomToken = KarmaPointFeatureToken.randomRemovePointToken.map { "`\($0)`" }.joined(separator: " || ")
+    
+    let addPoint = ButterbotAttachmentField(title: "Add 1 karma point :", value: "(@someone || #something) (\(addToken))", short: false)
+    let removePoint = ButterbotAttachmentField(title: "Remove 1 karma point :", value: "(@someone || #something) (\(removeToken))", short: false)
+    let addRandomPoint = ButterbotAttachmentField(title: "Add (1..5) karma point(s) :", value: "(@someone || #something) (\(addRandomToken))", short: false)
+    let removeRandomPoint = ButterbotAttachmentField(title: "Remove (1..5) karma point(s) :", value: "(@someone || #something) (\(removeRandomToken))", short: false)
+
+    return ButterbotAttachment(title: title, text: nil, fields: [addPoint, removePoint, addRandomPoint, removeRandomPoint])
   }
 }
 

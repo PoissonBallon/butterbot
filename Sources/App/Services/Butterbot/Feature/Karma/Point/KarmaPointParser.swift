@@ -118,8 +118,8 @@ extension KarmaFeatureParser {
 
 
 struct KarmaPointFeatureToken {
-  static let addPointToken    =            ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+ 1"]
-  static let removePointToken =            ["--", ":thumbsdown:", "- 1", "—", ":middle_finger:"]
+  static let addPointToken    =            ["++", "merci", "thanks", ":+1:", ":thumbsup:", "+1"]
+  static let removePointToken =            ["--", ":thumbsdown:", "-1", "—",]
   static let randomAddPointToken =         ["+?"]
   static let randomRemovePointToken =      ["-?"]
 }
