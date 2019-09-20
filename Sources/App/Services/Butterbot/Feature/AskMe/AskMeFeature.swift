@@ -14,19 +14,19 @@ struct AskMeFeature: ButterbotFeature {
   public let priority: Int = 750
   public var event: SlackEvent
   public var isValid: Bool = true
-  
-  
+
+
   init(with event: SlackEvent) {
     self.event = event
   }
-  
+
   func execute(on container: Container) -> EventLoopFuture<[ButterbotMessage]> {
     guard AskMeParser(with: self.event) != nil else { return container.eventLoop.newSucceededFuture(result: []) }
     let answer: String? = ([true, false].random ?? false) ? L10n.yes.random : L10n.not.random
     let message = ButterbotMessage(text: answer ?? "", attachments: nil)
     return container.eventLoop.newSucceededFuture(result: [message])
   }
-  
+
   func help(for botID: String) -> ButterbotAttachment? {
     let title = ":question: AskMe Help"
     let field = ButterbotAttachmentField(title: "Ask butterbot :", value: "<@\(botID)> `Est-ce qu`'il fait beau aujourd'hui ?", short: false)
@@ -35,7 +35,7 @@ struct AskMeFeature: ButterbotFeature {
 }
 
 extension AskMeFeature {
-  
+
   struct AskMeParser {
     init?(with event: SlackEvent) {
       guard let authedUser = event.authedUsers.first else { return nil }
@@ -47,8 +47,8 @@ extension AskMeFeature {
 
 extension AskMeFeature {
   struct L10n {
-    
-    static var yes:[String] = [
+
+    static var yes: [String] = [
       "Yes :thumbsup:",
       "Owyyyyy :thumbsup:",
       "Je veux mon vieux :thumbsup:",
@@ -56,11 +56,13 @@ extension AskMeFeature {
       "Evidemment :thumbsup:",
       "Sure :thumbsup:",
       "Oui :thumbsup:",
-      "Bien sure :thumbsup:",
+      "Bien sûr :thumbsup:",
       "Of course :thumbsup:",
-      "Obviously :thumbsup:"
+      "Obviously :thumbsup:",
+      "Sisi ma gueule :ok_hand:",
+      "Grave :ok_hand:"
     ]
-    
+
     static var not: [String] = [
       "Nop :thumbsdown:",
       "Je ne pense pas :thumbsdown:",
@@ -71,8 +73,12 @@ extension AskMeFeature {
       "I don't think so :thumbsdown:",
       "Même pas dans tes rêves les plus fous :thumbsdown:",
       "Non :thumbsdown:",
-      "Nope Nope Nope Nope :thumbsdown:"
+      "Nope Nope Nope Nope :thumbsdown:",
+      "Non c'est mort :thumbsdown:",
+      "Non, j'crois pas, non :thumbsdown:",
+      "Grave pas :thumbsdown:",
+      "C'est une vraie question ? :neutral_face:"
     ]
-    
+
   }
 }
